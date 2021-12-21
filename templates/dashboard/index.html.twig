@@ -1,0 +1,97 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+    <section class="panel important">
+        <h2>Bienvenue sur votre tableau de bord</h2>
+        {% include 'common/_notice.html.twig' %}
+        <ul>
+            <li>
+                <p>Nombre d'URL Illimités</p>
+                <div>
+                    <form class="js-form">
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" name="unlimited" class="js-unlimited form-control" />
+                            </div>
+                            <div class="col-2 mt-1">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-cogs"></i>
+                                    Génèrer
+                                </button>
+                            </div>
+                            <div class="col-8 my-2">
+                                <div class="js-spinner" role="status">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+            <li>
+                <p>Nombre d'URL payantes</p>
+                <div>
+                    <form class="js-form">
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="number" name="payante" class="js-payante form-control" />
+                            </div>
+                            <div class="col-2 mt-1">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-cogs"></i>
+                                    Génèrer
+                                </button>
+                            </div>
+                            <div class="col-8 my-2">
+                                <div class="js-spinner" role="status">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+            <hr>
+            <li>
+                <p>Urls a réinitialiser</p>
+                <div>
+                    <form class="js-form">
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" name="reinitialiser" class="js-payante form-control" />
+                            </div>
+                            <div class="col-2 mt-1">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-cogs"></i>
+                                    Génèrer
+                                </button>
+                            </div>
+                            <div class="col-8 my-2">
+                                <div class="js-spinner" role="status">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </li>
+            <li>
+                <p>Urls a réinitialiser</p>
+                <div>
+                    {{ form_start(form, {'attr': {'class': 'js-upload-file'}}) }}
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_widget(form.file) }}
+                            </div>
+                            <div class="col-2 mt-4">
+                                <button type="submit" class="btn btn-primary btn-sm js-button-upload-file">
+                                    <i class="fas fa-cogs"></i>
+                                    Génèrer
+                                </button>
+                            </div>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </li>
+        </ul>
+    </section>
+{% endblock %}

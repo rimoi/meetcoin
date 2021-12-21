@@ -1,0 +1,46 @@
+{% extends "site.html.twig" %}
+
+{% block title %}
+    {{ 'homepage.action.create_account'|trans }}
+{% endblock %}
+
+{% block body %}
+    <main id="main">
+        <section id="about" class="about">
+            <div class="row">
+                {% for flashError in app.flashes('verify_email_error') %}
+                    <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                {% endfor %}
+
+                <div class="row">
+                    <h1 class="col-12 col-lg-6 offset-lg-2 form-group">
+                        {{ block('title') }}
+                    </h1>
+                </div>
+
+                {{ form_start(registrationForm, {'attr': {'class': 'php-email-form'}}) }}
+                    <div class="row">
+                        <div class="col-12 col-lg-6 offset-lg-2 form-group">
+                            {{ form_row(registrationForm.email) }}
+                        </div>
+                        <div class="col-12 col-lg-6 offset-lg-2 form-group">
+                            {{ form_row(registrationForm.password) }}
+                        </div>
+
+                        <div class="col-12 col-lg-6 offset-lg-2 form-group">
+                            <button type="submit" class="btn btn-buy-simple">{{ 'homepage.action.create'|trans }}</button>
+
+                            {% set params = {} %}
+                            {% if app.request.get('id') %}
+                                {% set params = app.request.get('id') %}
+                            {% endif %}
+                            <a href="{{ path('app_login', {id: params}) }}" class="btn btn-buy">
+                                {{ 'homepage.action.login'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                {{ form_end(registrationForm) }}
+            </h1>
+        </section>
+    </main>
+{% endblock %}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.2.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     viewBox="0 0 13 13" style="enable-background:new 0 0 13 13;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#puce_bleue_2_);}
+</style>
+    <linearGradient id="puce_bleue_2_" gradientUnits="userSpaceOnUse" x1="-209.6559" y1="409.9737" x2="-208.6559" y2="408.9737" gradientTransform="matrix(13 0 0 -13 2725.5273 5329.6587)">
+	<stop  offset="0" style="stop-color:#0099FD"/>
+        <stop  offset="1" style="stop-color:#00C5FA"/>
+</linearGradient>
+    <circle id="puce_bleue_1_" class="st0" cx="6.5" cy="6.5" r="6.5"/>
+</svg>

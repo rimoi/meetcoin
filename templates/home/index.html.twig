@@ -1,0 +1,124 @@
+{% extends "site.html.twig" %}
+{% block title 'homepage.form.message.create'|trans %}
+
+{% block body %}
+<main id="main">
+    <section id="about" class="about">
+        <div class="row">
+            <div class="col-12">
+                {% if prereglages|default %}
+                    <select name="js-change-prereglage" id="js-change-prereglage" class="form-select custom-select" data-url="{{ url_to_redirect }}">
+                        <option value="">Choisir un préréglage</option>
+                        {% for prereglage in prereglages %}
+                            <option value="{{ prereglage.id }}"
+                                {% if app.request.get('id')  and app.request.get('id') == prereglage.id %}
+                                    selected
+                                {% endif %}
+                            >{{ prereglage.nameReglage }}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+            </div>
+            <div class="col-12 social-links">
+
+                {{ form_start(form, {'attr': {'class': 'php-email-form'}}) }}
+
+                {% block _name_prereglage '' %}
+
+                <div class="form-group">
+                        {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="form-group my-2">
+                        {{ form_widget(form.type, {'attr': {'class': 'form-select'}}) }}
+                    </div>
+                    <div class="form-group mt-3">
+                        {{ form_widget(form.message, {
+                            attr: {
+                                class: 'cs-text-area form-control'
+                            }
+                        }) }}
+                    </div>
+
+                    {% if form_errors(form.insta) or form_errors(form.email) or form_errors(form.messenger) or form_errors(form.snap) %}
+                        <div class="alert alert-danger">
+                            {{ form_errors(form.insta) }}
+                            {{ form_errors(form.email) }}
+                            {{ form_errors(form.messenger) }}
+                            {{ form_errors(form.snap) }}
+                        </div>
+                    {% endif %}
+                    <div class="d-flex my-1">
+                        <div class="d-inline-flex">
+                            <div class="d-flex align-items-center snap">
+                                <i class="bx bxl-snapchat fa-3x"></i>
+                                &nbsp;
+                            </div>
+                            <div class="form-group">
+                                {{ form_widget(form.snap, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="d-inline-flex ml-3">
+                            <div class="d-flex align-items-center">
+                                &nbsp;
+                                <i class="bx bxl-messenger fa-3x"></i>
+                                &nbsp;
+                            </div>
+                            <div class="form-group">
+                                {{ form_widget(form.messenger, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex my-3">
+                        <div class="d-inline-flex">
+                            <div class="d-flex align-items-center instagram">
+                                <i class="bx bxl-instagram fa-3x"></i>
+                                &nbsp;
+                            </div>
+                            <div class="form-group">
+                                {{ form_widget(form.insta, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                        <div class="d-inline-flex ml-3">
+                            <div class="d-flex align-items-center">
+                                &nbsp;
+                                <i class="bx bxs-envelope fa-3x"></i>
+                                &nbsp;
+                            </div>
+                            <div class="form-group">
+                                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(form.timeToShowMessage, {'attr': {'class': 'form-select'}}) }}
+                    </div>
+
+                    {% block _save_preset %}
+                        <div class="d-flex justify-content-between my-4 btn-wrap">
+                            <button class="btn-buy-simple js-submit-with-confirmation" type="button" data-type="draft">
+                                <i class="fas fa-trash"></i>
+                                {{ 'homepage.action.draft'|trans }}
+                            </button>
+                            <button class="btn-buy js-submit-with-confirmation" type="button" data-type="validation">
+                                <i class="far fa-check-circle"></i>
+                                {{ 'homepage.action.validation'|trans }}
+                            </button>
+                        </div>
+
+                        <div class="d-flex justify-content-between my-4" style="display: none !important;">
+                            <button class="btn btn-info js-draft" type="submit" name="draft" value="draft">
+                                <i class="fas fa-trash"></i>
+                                {{ 'homepage.action.draft'|trans }}
+                            </button>
+                            <button class="btn btn-success js-validation" type="submit" name="validation" value="validation">
+                                <i class="far fa-check-circle"></i>
+                                {{ 'homepage.action.validation'|trans }}
+                            </button>
+                        </div>
+                    {% endblock %}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

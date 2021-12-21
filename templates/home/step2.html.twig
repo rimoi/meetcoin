@@ -1,0 +1,51 @@
+{% extends "site.html.twig" %}
+{% block title 'homepage.form.message.show'|trans %}
+
+{% block body %}
+
+    <section id="services" class="services" style="margin-top: 15px;">
+        <div class="container">
+
+            {{ form_start(form) }}
+
+            <div class="row">
+                <div class="col-lg-8 col-11 m-1">
+                    {% set username = url.lastMessage ? url.lastMessage.prenom : '' %}
+                    {% set message_type = url.lastMessage ? url.lastMessage.type|trans() ~ ' :' : '' %}
+                    {% set content = url|traduction(app.request.locale) %}
+
+                    {{ 'homepage.step2.message'|trans({
+                        '%username%': username,
+                        '%message_type%': message_type,
+                        '%content%': content
+                    })|raw }}
+                </div>
+            </div>
+
+            {{ form_row(form.suivante) }}
+            <div class="text-right my-4">
+                {% if not app.user %}
+                    <a href="{{ path('app_register', {
+                        id: url.lastMessage.id
+                    }) }}" class="btn btn-primary">
+                        <i class="far fa-user"></i>
+                        {{ 'homepage.action.create_account'|trans }}
+                    </a>
+                    &nbsp;
+                    {#                    <a href="{{ path('app_login', {#}
+                    {#                        id: url.lastMessage.id#}
+                    {#                    }) }}" class="btn btn-primary">#}
+                    {#                        <i class="far fa-user"></i>#}
+                    {#                        {{ 'homepage.action.login'|trans }}#}
+                    {#                    </a>#}
+                {% endif %}
+
+                <button class="btn btn-success" type="submit">
+                    <i class="far fa-check-circle"></i>
+                    {{ 'homepage.action.reset'|trans }}
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section><!-- End Services Section -->
+{% endblock %}

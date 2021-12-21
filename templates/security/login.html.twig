@@ -1,0 +1,61 @@
+{% extends 'site.html.twig' %}
+
+{% block title %}{{ 'homepage.action.login'|trans}}{% endblock %}
+
+{% block body %}
+    <main id="main">
+        <section id="about" class="about">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <h2 class="col-12 col-lg-6 offset-lg-2 form-group mt-3 mt-md-0">
+                            {{ 'homepage.action.login'|trans }}
+                        </h2>
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+                    {% if app.user %}
+                        <div class="mb-3">
+                            {{ 'homepage.form.is_connected'|trans({'%name%': app.user.username}) }},
+                            <a href="{{ path('app_logout') }}">
+                                {{ 'homepage.action.logout'|trans }}
+                            </a>
+                        </div>
+                    {% endif %}
+                    <form method="post" class="php-email-form">
+                        <div class="row">
+                            <div class="col-12 col-lg-6 offset-lg-2 form-group">
+                                <input type="email" value="{{ last_username }}"  placeholder="{{ 'homepage.form.email'|trans }}" name="email" class="form-control" id="inputEmail" required autofocus>
+                            </div>
+                            <div class="col-12 col-lg-6 offset-lg-2 form-group mt-3 mt-md-0">
+                                <input type="password" name="password" placeholder="{{ 'homepage.form.password'|trans }}" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                            </div>
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}"
+                            />
+
+                            <div class="row">
+                                <div class="col-12 col-lg-6 offset-lg-2 form-group mt-3 mt-md-0">
+                                    <button class="btn btn-buy-simple" type="submit">
+                                        {{ 'homepage.action.login'|trans }}
+                                    </button>
+
+                                    {% set params = {} %}
+                                    {% if app.request.get('id') %}
+                                        {% set params = app.request.get('id') %}
+                                    {% endif %}
+
+                                    <a href="{{ path('app_register', {id: params}) }}" class="btn btn-buy">
+                                        {{ 'homepage.register.signin'|trans }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </h2>
+            </div>
+        </section>
+    </main>
+{% endblock %}

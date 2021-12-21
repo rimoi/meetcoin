@@ -1,0 +1,52 @@
+{% extends "site.html.twig" %}
+{% block title 'homepage.espace_client.title'|trans %}
+
+{% block body %}
+
+    <section id="hero" class="d-flex flex-column justify-content-center">
+        <div class="container">
+            <div class="text-right lead text-dark">
+                <span class="">{{ 'homepage.form.credit'|trans }}</span>:
+                {{ app.user.credit }}
+                <i class="bx bx-money"></i>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-xl-8">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <a href="https://www.youtube.com/watch?v=pXJ7ZxhXWy4&ab_channel=4KVideoNature-FocusMusicQ" class="glightbox play-btn mb-4"></a>
+                        </div>
+                    </div>
+
+                    <table class="table table-bordered table-transparent">
+                        <thead>
+                            <tr>
+                                <td colspan="5">Liste des configurations</td>
+                                <td>
+                                    <a href="{{ path('espace_client_preset') }}" class="btn btn-info btn-sm" title="{{ 'homepage.espace_client.button.create_reglage'|trans }}">
+                                        <i class="bx bx-plus"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reglage in reglages %}
+                                <tr>
+                                    <td colspan="5">
+                                        {{ reglage.nameReglage }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('espace_client_edit', {
+                                            id : reglage.id
+                                        }) }}" class="btn btn-info btn-sm" title="{{ 'homepage.espace_client.button.edit_reglage'|trans({'%name%': reglage.nameReglage}) }}">
+                                            <i class="bx bx-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}

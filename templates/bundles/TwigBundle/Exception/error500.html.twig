@@ -1,0 +1,22 @@
+{% extends 'connection/login.html.twig' %}
+
+{% block title %}Je suis désolé pour cette erreur. {% endblock %}
+{% block _show_message %}{{ block('title') }}{% endblock %}
+{% block meta_robots %}
+    <meta name="robots" content="noindex"/>
+{% endblock %}
+{% block _create_or_ligin %}
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="sign_up">
+            <p style="color: #fff">Merci de me faire part de cette erreur un appuyant sur le bouton <b>Envoyer l'erreur</b></p>
+            <form action="{{ path('exception') }}" method="post">
+                <input type="hidden" name="_status_code" value="{{ status_code }}"/>
+                <input type="hidden" name="_status_text" value="{{ status_text }}"/>
+                <input type="hidden" name="_line" value="{{ exception.line }}"/>
+                <input type="hidden" name="_file" value="{{ exception.file }}"/>
+                <input type="submit" value="Envoyer l'erreur">
+            </form>
+        </div>
+    </div>
+*{% endblock %}
+

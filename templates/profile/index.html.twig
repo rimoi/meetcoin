@@ -1,0 +1,12 @@
+{% extends "site.html.twig" %}
+{% block title 'Mon profil' %}
+
+{% block body %}
+    <section class="panel important p-5">
+        <span class="badge badge-primary">{{ 'homepage.form.credit'|trans }}</span> : {{ app.user.credit }}
+
+        <div class="text-right my-5">
+            <a class="btn btn-info" href="{{ path('profile_user_edit', {id: app.user.id}) }}">{{ 'homepage.form.edit_profile'|trans }}</a>
+        </div>
+    </section>
+{% endblock %}

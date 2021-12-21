@@ -1,0 +1,16 @@
+{% extends "site.html.twig" %}
+{% block title 'Attente' %}
+
+{% block body %}
+    <section class="panel important p-5" style="background-color: #222">
+        <div class="text-center text-white">
+            {{ 'homepage.email.waiting_email_send'|trans }}
+        </div>
+        <div class="text-center my-4">
+            <a href="{{ url }}" class="btn btn-success">
+                <i class="far fa-check-circle"></i>
+                {{ 'homepage.action.refresh'|trans }}
+            </a>
+        </div>
+    </section>
+{% endblock %}

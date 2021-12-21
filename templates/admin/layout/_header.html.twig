@@ -1,0 +1,16 @@
+<header role="banner">
+    <h1>Administration</h1>
+    <ul class="utilities">
+{#        <li class="users"><a href="{{ path('home') }}">Aller sur mon site</a></li>#}
+        <li class="logout warn"><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+    </ul>
+</header>
+
+<nav role="navigation">
+    <ul class="main">
+        <li class="home"><a href="{{ path('dashboard_index') }}">Tableau de bord</a></li>
+        <li class="dashboard"><a href="{{ path('statistic_index') }}">Statistique</a></li>
+        <li class="dashboard"><a href="{{ path('export_index') }}">Export</a></li>
+        <li class="users"><a href="#">Utilisateurs</a></li>
+    </ul>
+</nav>

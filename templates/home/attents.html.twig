@@ -1,0 +1,47 @@
+{% extends "site.html.twig" %}
+{% block title 'Message' %}
+
+{% block body %}
+    <section class="panel js-timer important p-5" data-timer="{{ timer }}" style="background-color: #222">
+        <div id="timer" class="d-flex justify-content-around align-items-center">
+            <div id="days"></div>
+            <div id="hours"></div>
+            <div id="minutes"></div>
+            <div id="seconds"></div>
+        </div>
+    </section>
+    <section id="counts" class="counts">
+        <div class="container">
+
+            <div class="text-center title">
+                <h3>What we have achieved so far</h3>
+                <p>Iusto et labore modi qui sapiente xpedita tempora et aut non ipsum consequatur illo.</p>
+            </div>
+
+            <div class="row counters position-relative">
+
+                <div class="col-lg-3 col-6 text-center">
+                    <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="0" class="purecounter">232</span>
+                    <p>Clients</p>
+                </div>
+
+                <div class="col-lg-3 col-6 text-center">
+                    <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="0" class="purecounter">521</span>
+                    <p>Projects</p>
+                </div>
+
+                <div class="col-lg-3 col-6 text-center">
+                    <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="0" class="purecounter">1 463</span>
+                    <p>Hours Of Support</p>
+                </div>
+
+                <div class="col-lg-3 col-6 text-center">
+                    <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="0" class="purecounter">15</span>
+                    <p>Hard Workers</p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+{% endblock %}

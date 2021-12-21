@@ -1,0 +1,23 @@
+{% extends "site.html.twig" %}
+{% block title %}{{ 'homepage.form.edit_info_user'|trans }}{% endblock %}
+
+{% block body %}
+<section class="panel important p-5">
+    <h1>
+        {{ block('title') }}
+    </h1>
+
+    {{ form_start(form) }}
+
+       {{ form_row(form.image) }}
+
+       <div class="text-right mt-4">
+           <button class="btn btn-success" type="submit">
+               <i class="far fa-check-circle"></i>
+               {{ 'homepage.action.submit'|trans }}
+           </button>
+       </div>
+
+    {{ form_end(form) }}
+</section>
+{% endblock %}

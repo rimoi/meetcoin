@@ -1,0 +1,30 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Statistique - Admin{% endblock %}
+
+{% block body %}
+    <section class="panel important">
+        <h2>Exporter des urls</h2>
+        {% include 'common/_notice.html.twig' %}
+        <ul>
+            <li>
+                <p>Urls a réinitialiser</p>
+                <div>
+                    {{ form_start(form, {'attr': {'class': ''}}) }}
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form_row(form.list, {label: ' '}) }}
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-primary btn-sm" style="margin-top: 18px;">
+                                <i class="fas fa-cogs"></i>
+                                Génèrer
+                            </button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </li>
+        </ul>
+    </section>
+{% endblock %}

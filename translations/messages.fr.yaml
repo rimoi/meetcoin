@@ -1,0 +1,102 @@
+homepage:
+    form:
+        lastname: 'Prénom / Pseudo'
+        snap: 'Pseudo Snap'
+        messenger: 'Pseudo Messenger'
+        mail: 'Adresse Email'
+        insta: 'Pseudo Instagram'
+        description: 'Ecrivez ici votre message...'
+        show_message: 'Rendre mon message visible dans : '
+        zero_min: '0 min'
+        one_hours: '1 heures'
+        three_hours: '3 heures'
+        six_hours: '6 heures'
+        twelve_hours: '12 heures'
+        24_hours: '24 heures'
+        question: "L'inviter à boire un verre"
+        drink: "L'inviter à boire un verre"
+        dinner: "L'inviter à diner"
+        cafe: "L'inviter à prendre en café"
+        lunch: "L'inviter à déjeuner"
+        nice_place: "Lui faire découvrir un endroit sympa"
+        know_each_other: "Faire connaissance"
+        show_him_passion: "Lui montrer sa passion"
+        email: 'Email'
+        confirm_email: 'Confirmation email'
+        password: 'Mot de passe'
+        confirm_password: 'Confirmation mot de passe'
+        proposition: 'Que souhaitez vous lui proposée'
+        edit_info_user: 'Modifier les informations utilisateur'
+        credit: 'Crédit'
+        edit_profile: 'Modifier l''image de votre profil'
+        fields:
+            name_prereglage: 'Nom du préréglage'
+        is_connected: 'Vous êtes connecté en tant que %name%'
+
+        confirme: 'Bonjour'
+        confirme_message: 'Veuillez confirmer votre adresse électronique en cliquant sur le lien suivant : '
+
+        message:
+            create: 'Création de message'
+            show: 'Voir le message'
+            edit: 'Modifier le message'
+
+    error:
+         user_already_exist: 'Il existe déjà un compte avec cet e-mail !'
+         password_not_match: 'Les deux mots de passe ne sont pas identiques.'
+         email_not_match: 'Les deux emails ne sont pas identiques.'
+         please_enter_password: 'Entrer en mot de passe'
+         contact: 'Vous devez renseigner au moins un moyen auquel on pourrait vous contanctez'
+         type: 'Vous devez choisir le type de votre message !'
+         password_min_caracter: 'Votre mot de passe doit comporter au moins {{ limit }} caractères'
+
+
+    action:
+        validation: 'Validation définitive'
+        next: 'Suivant'
+        draft: 'Brouillon'
+        reset: 'Réutiliser ce Meetcoin'
+        create_account: 'Créer votre compte'
+        login: 'Se connecter'
+        logout: 'Se déconnecter'
+        forget_password: 'Mot de passe oublié ?'
+        create: 'Créer'
+        submit: 'Soumettre'
+        cancel: 'Annuler'
+        refresh: 'Actualiser'
+        save_preset: 'Enregistrer le préréglage'
+        edit_preset: 'Modifier le préréglage'
+
+    register:
+        signin: 'Création de compte'
+
+    espace_client:
+        title: 'Mon espace client'
+        button:
+            create_reglage: 'Créer un nouveau préréglage'
+            edit_reglage: 'Modifier le préréglage de %name%'
+        alert:
+            reglage_created: 'Votre réglage %name% à bien été crée'
+            reglage_edited: 'Votre réglage %name% à bien été modifié'
+
+    email:
+        confirm_email: 'Merci de confirmer votre adresse email'
+        confirm_my_email: 'Confirmer mon email'
+        link_expire_at: 'Ce lien expire dans '
+        cordialy: 'Cordialement'
+        email_verified: 'Votre adresse électronique a été vérifiée'
+        hello: 'Bonjour'
+        waiting_email_send: 'Veuillez confirmer votre email'
+
+    step2:
+        message: |
+            <div class='features'>
+                <div class="icon-box mt-5 mt-lg-0">
+                  <i class='bx bx-user-circle'></i>
+                  <div class="text-muted username">%username%</div>
+                  <h4>%message_type% : </h4>
+                  <p>%content%</p>
+                </div>
+            </div>
+
+        text: ~

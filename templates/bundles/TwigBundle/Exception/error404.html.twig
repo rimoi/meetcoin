@@ -1,0 +1,16 @@
+{% extends 'connection/login.html.twig' %}
+
+{% block title %}La page que vous cherchez n'existe pas !{% endblock %}
+{% block meta_robots %}
+    <meta name="robots" content="noindex"/>
+{% endblock %}
+{% block _show_message %}{{ block('title') }}{% endblock %}
+{% block _create_or_ligin %}
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="sign_up">
+            <img height="400" width="350" src="{{ asset('build/images/error404.jpg') }}" alt="Image Page 404">
+        </div>
+    </div>
+{% endblock %}
+
+

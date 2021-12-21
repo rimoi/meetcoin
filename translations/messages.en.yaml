@@ -1,0 +1,16 @@
+homepage:
+    form:
+        firstname: 'Nom'
+        lastname: 'Prénom'
+        snap: 'Pseudo Snap'
+        messenger: 'Pseudo Messenger'
+        mail: 'Adresse Email'
+        insta: 'Pseudo Instagram'
+        description: 'Ecrivez ici votre message...'
+        show_message: 'Rendre mon message visible dans : '
+
+    action:
+        validation: 'Final validation'
+        draft: 'Draft'
+        next: 'Next'
+        reset: 'Reset'

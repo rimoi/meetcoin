@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+{% block footer '' %}
+{% block header %}
+    <div class="pull-right btn btn-default" style="margin: 39px">
+        <a href="{{ path('home') }}">Aller sur le site</a>
+    </div>
+{% endblock %}
+{% block body_class 'admin' %}
+
+{% block body %}
+    <div class="container p-4 js-container">
+        <div class="row">
+            <div class="col-md-3">
+                {% set route = app.request.get('_route') %}
+                <div style="margin-top: 4em;">
+                    <h1>
+                        <a {% if route == 'article_index' %}class="text-danger"{% endif %} href="{{ path('article_index') }}">Annonce</a>
+                    </h1>
+                </div>
+                <hr>
+                <div>
+                    <h1>
+                        <a {% if route == 'category_index' %}class="text-danger"{% endif %} href="{{ path('category_index') }}">Catégorie</a>
+                    </h1>
+                </div>
+                <hr>
+                <div>
+                    <h1>
+                        <a {% if route == 'commune_index' %}class="text-danger"{% endif %} href="{{ path('commune_index') }}">Commune</a>
+                    </h1>
+                </div>
+                <hr>
+                <div>
+                    <h1>
+                        <a {% if route == 'user_index' %}class="text-danger"{% endif %} href="{{ path('user_index') }}">User</a>
+                    </h1>
+                </div>
+                <hr>
+{#                <div>#}
+{#                    <h1>#}
+{#                        <a href="{{ path('page_index') }}">Page</a>#}
+{#                    </h1>#}
+{#                </div>#}
+            </div>
+            <div class="col-md-9" style="border-left: 1px solid">
+                {% block body_content '' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

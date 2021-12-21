@@ -1,0 +1,18 @@
+{% extends "espace_client/preset.html.twig" %}
+{% block title 'homepage.form.message.edit'|trans %}
+
+{% block _save_preset %}
+  <div class="d-flex justify-content-between">
+      <div class="my-4">
+          <button class="btn btn-success" type="submit" name="validation" value="validation">
+              <i class="far fa-check-circle"></i>
+              {{ 'homepage.action.save_preset'|trans }}
+          </button>
+      </div>
+      <div class="my-4">
+          <a href="{{ path('espace_client_index') }}" class="btn btn-info">
+              {{ 'homepage.action.cancel'|trans }}
+          </a>
+      </div>
+  </div>
+{% endblock %}

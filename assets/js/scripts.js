@@ -49,10 +49,10 @@ $(function () {
                 if (data && data[0] && data[0].value) {
                     if (data && data[0] && data[0].name) {
                         if (data[0].name === 'unlimited') {
-                            generateUrl(formContext, data[0], '.js-spinner')
+                            generateUrl(formContext, data, '.js-spinner')
                         }
                         if (data[0].name === 'paid') {
-                            generateUrl(formContext, data[0], '.js-spinner')
+                            generateUrl(formContext, data, '.js-spinner')
                         }
                         if (data[0].name === 'reinitialiser') {
                             reinitialiser(formContext, data[0], '.js-spinner')
@@ -70,11 +70,16 @@ $(function () {
 
     });
 
-    function generateUrl(context, data, className) {
+    function generateUrl(context, datas, className) {
         let element = context.find(className);
         let form = context;
+
+        const data = datas[0];
         let type = data.name;
         let value = data.value;
+
+        const category = datas[1] ? datas[1].value : null;
+
 
         element.html(`
          <div class="spinner-border text-primary" role="status">
@@ -82,7 +87,7 @@ $(function () {
     `);
 
         $.ajax({
-            url: Routing.generate('generate_url', {'limit': value, 'type': type}),
+            url: Routing.generate('generate_url', {'limit': value, 'type': type, 'category': category}),
             type: 'POST',
             success: function (data) {
                 if (data.error === false) {

@@ -81,6 +81,11 @@ class Url
      */
     private $messages;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $category;
+
     public function isFree(): bool
     {
         return $this->type === PaymentConstant::UNLIMITED;
@@ -327,6 +332,18 @@ class Url
         $data[] = $authorizedUser;
 
         $this->authorizedUser = json_encode($data);
+
+        return $this;
+    }
+
+    public function getCategory(): ?string
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?string $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

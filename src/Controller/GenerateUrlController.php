@@ -24,9 +24,10 @@ class GenerateUrlController extends AbstractController
 
         $type = $request->get('type');
         $limit = $request->get('limit');
+        $category = $request->get('category');
 
         try {
-            $generateUrl->generate($type, $limit);
+            $generateUrl->generate($type, $limit, $category);
         } catch (\Exception $exception) {
             $error = true;
         }

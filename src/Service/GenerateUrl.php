@@ -18,7 +18,7 @@ class GenerateUrl
         $this->entityManager = $entityManager;
     }
 
-    public function generate(string $type = PaymentConstant::PAID, int $maxNumber = 999)
+    public function generate(string $type = PaymentConstant::PAID, int $maxNumber = 999, ?string $category = null)
     {
         $lastOne = $this->entityManager->getRepository(Url::class)->findOneBy([], ['id' => 'DESC']);
         $lastId = 0;
@@ -29,14 +29,18 @@ class GenerateUrl
         for ($i = $lastId + 1; $i <= $lastId + $maxNumber; $i++) {
             // on crée une URL
             $url = new Url();
-            $url->setSubdomain('icebreak.');
+            $url->setSubdomain('');
             $url->setDomain('meetcoin');
-            $url->setExtension('.fr/message/');
+            $url->setExtension('.app/');
             $url->setIdentifiant($i);
             $url->setSecurityKey('@'.uniqid('', true));
             $url->setTimer(new \DateTime());
             $url->setCompleteUrl($url->__toString());
             $url->setType($type);
+
+            if ($category) {
+                $url->setCategory($category);
+            }
 
             $this->entityManager->persist($url);
         }

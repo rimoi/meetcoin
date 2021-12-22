@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/generate/", name="generate_")
+ * @Route("/generate", name="generate_")
  */
 class GenerateUrlController extends AbstractController
 {

@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Constant\PaymentConstant;
 use App\Entity\Url;
 use App\Service\GenerateUrl;
 use Doctrine\ORM\EntityManagerInterface;
@@ -39,7 +40,7 @@ class GenerateUrlCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->generateUrl->generate();
+        $this->generateUrl->generate(PaymentConstant::UNLIMITED, 50000, 'MBC2');
 
         $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
 

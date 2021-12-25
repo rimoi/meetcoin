@@ -99,7 +99,11 @@ class LoginFromAuthenticator extends AbstractFormLoginAuthenticator implements P
             return new RedirectResponse($url);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('espace_client_index'));
+        $locale = $token->getUser()->getLanguage() ?: 'fr';
+
+        return new RedirectResponse($this->urlGenerator->generate('espace_client_index', [
+            '_locale' => $locale
+        ]));
     }
 
     protected function getLoginUrl()

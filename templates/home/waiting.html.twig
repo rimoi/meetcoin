@@ -1,16 +1,28 @@
 {% extends "site.html.twig" %}
-{% block title 'Attente' %}
+{% block title 'homepage.title.waiting'|trans %}
 
 {% block body %}
-    <section class="panel important p-5" style="background-color: #222">
+<main id="main">
+    <section id="about" class="about bg-dark">
         <div class="text-center text-white">
             {{ 'homepage.email.waiting_email_send'|trans }}
         </div>
-        <div class="text-center my-4">
-            <a href="{{ url }}" class="btn btn-success">
-                <i class="far fa-check-circle"></i>
-                {{ 'homepage.action.refresh'|trans }}
-            </a>
-        </div>
+
+        {% if url %}
+            <div class="text-center my-4">
+                <a href="{{ url }}" class="btn btn-success">
+                    <i class="far fa-check-circle"></i>
+                    {{ 'homepage.action.refresh'|trans }}
+                </a>
+            </div>
+        {% else %}
+            <div class="text-center my-4">
+                <a href="{{ path('espace_client_index') }}" class="btn btn-success">
+                    <i class="far fa-check-circle"></i>
+                    {{ 'homepage.action.refresh'|trans }}
+                </a>
+            </div>
+        {% endif %}
     </section>
+</main>
 {% endblock %}

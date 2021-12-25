@@ -40,7 +40,7 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="app_register")
+     * @Route({"fr": "/creation-compte", "en": "/en/register", "es": "/es/registrar", "it": "/it/registrare"}, name="app_register")
      */
     public function register(
         Request $request,
@@ -84,6 +84,8 @@ class RegistrationController extends AbstractController
 
             $user->messageId = $id;
 
+            $user->setLanguage($request->getLocale());
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -91,7 +93,7 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address($this->emailToSend, 'Lucien Gerber'))
+                    ->from(new Address($this->emailToSend, 'Meetcoin'))
                     ->to($user->getEmail())
                     ->subject($this->translator->trans('homepage.email.confirm_email'))
                     ->htmlTemplate('registration/confirmation_email.html.twig')
@@ -105,12 +107,9 @@ class RegistrationController extends AbstractController
                     'key' => $message->getUrl()->getUrlToRoute(),
                     '_locale' => $request->getLocale()
                 ]);
-            } else {
-                // A changer une fois qu'on fait l'espace de client 👇
             }
 
-            // mettre la route 👇 pour la redirect ici
-            // return $url;
+            return $this->redirectToRoute('message_waiting', ['key' => 'check']);
         }
 
         return $this->render('registration/register.html.twig', [
@@ -179,8 +178,6 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', $this->translator->trans('homepage.email.email_verified'));
 
         if ($message) {
-
-
             return $this->redirectToRoute('message_index', [
                 'key' => $message->getUrl()->getUrlToRoute(),
                 '_locale' => $locale

@@ -789,13 +789,13 @@ section {
   font-size: 36px;
   font-weight: 700;
 }
-.counts .counters span {
+.counters {
   font-size: 48px;
   display: block;
   font-weight: 700;
   color: #009961;
 }
-.counts .counters p {
+p.count {
   padding: 0;
   margin: 0 0 20px 0;
   font-family: "Raleway", sans-serif;

@@ -18,7 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 /**
- * @Route({"fr": "/espace-client", "en": "/customer-area", "es": "/area-de-cliente"}, name="espace_client_")
+ * @Route({"fr": "/fr/espace-client", "en": "/en/customer-area", "es": "/es/area-de-cliente", "it": "/it/area-clienti"}, name="espace_client_")
  * @IsGranted("ROLE_USER")
  */
 class EspaceClientController extends AbstractController
@@ -35,7 +35,7 @@ class EspaceClientController extends AbstractController
     }
 
     /**
-     * @Route({"fr": "/", "en": "/", "es": "/"}, name="index")
+     * @Route({"fr": "/", "en": "/", "es": "/", "it": "/"}, name="index")
      */
     public function index(MessageRepository $messageRepository): Response
     {
@@ -45,7 +45,7 @@ class EspaceClientController extends AbstractController
     }
 
     /**
-     * @Route({"fr": "/prereglage", "en": "/preset", "es": "/preestablecido"}, name="preset")
+     * @Route({"fr": "/prereglage", "en": "/preset", "es": "/preestablecido", "it": "/preimpostato"}, name="preset")
      */
     public function preset(Request $request): Response
     {
@@ -76,7 +76,7 @@ class EspaceClientController extends AbstractController
     }
 
     /**
-     * @Route({"fr": "/{id}/edit", "en": "/{id}/edit", "es": "/{id}/editar"}, name="edit")
+     * @Route({"fr": "/{id}/modifier", "en": "/{id}/edit", "es": "/{id}/editar", "it": "/{id}/modificare"}, name="edit")
      */
     public function edit(Message $message, Request $request): Response
     {

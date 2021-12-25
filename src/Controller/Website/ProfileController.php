@@ -13,13 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
- * @Route({"fr": "/profil", "en": "/profile", "es": "/perfil"}, name="profile_")
+ * @Route({"fr": "/profil", "en": "/profile", "es": "/perfil", "it": "/profilo"}, name="profile_")
  * @IsGranted("ROLE_USER")
  */
 class ProfileController extends AbstractController
 {
     /**
-     * @Route("/", name="index")
+     * @Route({"fr": "/", "en": "/en", "es": "/es", "it": "/it"}, name="index")
      */
     public function index(): Response
     {
@@ -27,7 +27,7 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route({"fr": "/{id}/modifier", "en": "/{id}/edit", "es": "/{id}/editar"}, name="user_edit", methods={"GET","POST"})
+     * @Route({"fr": "/{id}/modifier", "en": "/en/{id}/edit", "es": "/es/{id}/editar", "it": "/it/{key}/edit"}, name="user_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, User $user): Response
     {

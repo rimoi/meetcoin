@@ -50,6 +50,18 @@ class UrlRepository extends ServiceEntityRepository
         ]);
     }
 
+    /**
+     * @return Url[] Returns an array of Url objects
+     */
+    public function findHistoricByUser(int $id)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.userVisited like :visited')
+            ->setParameter('visited', '%'.$id.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
 
     // /**
     //  * @return Url[] Returns an array of Url objects

@@ -1,13 +1,4 @@
-<h1>
-    {{ 'homepage.email.hello'|trans }}
-</h1>
-
-<p>
-    {{ 'homepage.email.confirm_email'|trans }} <br><br>
-    <a href="{{ signedUrl }}">{{ 'homepage.email.confirm_my_email'|trans }}</a>.
-    {{ 'homepage.email.link_expire_at'|trans }} {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
-
-<p>
-    {{ 'homepage.email.cordialy'|trans }}
-</p>
+{{ 'homepage.email.confirm_email_address'|trans({
+    '%signedUrl%': signedUrl,
+    '%expiredAt%': expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle')
+})|raw }}

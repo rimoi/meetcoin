@@ -46,18 +46,19 @@
                     <ul>
                         {% if app.user %}
                             <li>
-                                <a class="nav-link scrollto active" href="{{ path('espace_client_index') }}">Espace client</a>
+                                <a class="nav-link scrollto {{ app.request.get('_route') == 'espace_client_index' ? 'active' }}" href="{{ path('espace_client_index') }}">Espace client</a>
                             </li>
                         {% endif %}
                         <li class="dropdown">
                             <a href="#">
                                 <span class="flag-icon flag-icon-{{ app.request.locale == 'en' ? 'us' : app.request.locale }}"> </span>
+                                &nbsp;
                                 {{ app.request.locale|name_locale }}
                                 <i class="bi bi-chevron-down"></i>
                             </a>
 
                             <ul>
-                                {% for l in ['fr', 'es', 'en'] if app.request.locale != l %}
+                                {% for l in ['fr', 'en', 'it'] if app.request.locale != l %}
                                     <li>
                                         {% set param = app.request.attributes.get('_route_params')|merge(app.request.query.all) %}
                                         <a class="dropdown-item" href="{{ path(app.request.get('_route'), param|merge({'key': app.request.attributes.get('key'), '_locale': l})) }}">
@@ -68,7 +69,22 @@
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li><a class="nav-link scrollto" href="#">Contact</a></li>
+                        <li>
+                            <a href="{{ path('historic') }}" class="{{ app.request.get('_route') == 'historic' ? 'active' }}">
+                                {{ 'homepage.action.history_url'|trans }}
+                            </a>
+                        </li>
+                        <li>
+                            {% if not app.user %}
+                                <a class="nav-link scrollto {{ app.request.get('_route') == 'app_login' ? 'active' }}" href="{{ path('app_login') }}">
+                                    {{ 'homepage.action.login'|trans }}
+                                </a>
+                            {% else %}
+                                <a class="nav-link scrollto" href="{{ path('app_register') }}">
+                                    {{ 'homepage.action.logout'|trans }}
+                                </a>
+                            {% endif %}
+                        </li>
                     </ul>
                     <i class="bi bi-list mobile-nav-toggle"></i>
                 </nav><!-- .navbar -->

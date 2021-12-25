@@ -17,13 +17,13 @@ class MessageType extends AbstractType
         $builder
             ->add('prenom', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'homepage.form.lastname',
+                    'placeholder' => 'homepage.form.firstname',
                     'class' => 'cs-border-radius',
                 ],
                 'label' => false
             ])
             ->add('type', ChoiceType::class, [
-                'choices' => array_combine($this->typeMessage(), $this->typeMessage()),
+                'choices' => array_combine($this->typeMessage(), $this->typeMessageResponse()),
                 'placeholder' => 'homepage.form.proposition',
                 'required' => false,
                 'label' => false,
@@ -105,7 +105,6 @@ class MessageType extends AbstractType
             'homepage.form.three_hours' => '+3 hours',
             'homepage.form.six_hours' => '+6 hours',
             'homepage.form.twelve_hours' => '+12 hours',
-            'homepage.form.24_hours' => '+24 hours',
         ];
     }
 
@@ -113,13 +112,18 @@ class MessageType extends AbstractType
     {
         return [
             'homepage.form.drink',
-            'homepage.form.dinner',
             'homepage.form.cafe',
-            'homepage.form.lunch',
             'homepage.form.nice_place',
             'homepage.form.know_each_other',
-            'homepage.form.show_him_passion',
-            'homepage.form.fun_event',
+        ];
+    }
+    private function typeMessageResponse()
+    {
+        return [
+            'homepage.form.drink_reponse',
+            'homepage.form.cafe_reponse',
+            'homepage.form.nice_place_reponse',
+            'homepage.form.know_each_other_reponse',
         ];
     }
 }

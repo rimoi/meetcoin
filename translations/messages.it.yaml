@@ -1,0 +1,117 @@
+homepage:
+    form:
+        firstname: 'Nome'
+        facultatif: '(opzionale)'
+        snap: 'Nome utente'
+        messenger: 'Nome utente'
+        mail: 'E-mail'
+        insta: 'Nome utente'
+        description: 'Puoi scrivere un messaggio qui'
+        show_message: 'Dopo la convalida, rendi visibile il meetcoin'
+        zero_min: 'immediatamente'
+        one_hours: 'in 1 ora'
+        three_hours: 'in 3 ore'
+        six_hours: 'in 6 ore'
+        twelve_hours: 'in 12 ore'
+        cafe: 'Invitare per un caffè'
+        nice_place: 'Invitare a scoprire un simpatico posto'
+        know_each_other: 'Invitare a fare conoscenza'
+        drink_response: "Ti invita a bere qualcosa"
+        cafe_response: "Ti invita a prendere un caffè"
+        nice_place_response: "Vuole mostrarti un bel posto"
+        know_each_other_response: "Lui/lei vuole conoscerti"
+        show_him_passion: ''
+        email: 'E-mail'
+        confirm_email: 'Conferma e-mail'
+        password: 'Password'
+        confirm_password: 'Conferma la tua password'
+        proposition: 'Cosa vorresti proporre?'
+        edit_info_user: 'Modifica le mie informazioni'
+        credit: 'Credito(i)'
+        edit_profile: 'Modifica la mia immagine'
+        fields:
+            name_prereglage: 'Preimpostato nome'
+        is_connected: 'Sei connesso come %name%'
+
+        confirme_message: 'Fare clic sul collegamento seguente per confermare l''e-mail:'
+
+        message:
+            create_preset: 'Preimpostata configurazione'
+            create: 'Meetcoin configurazione'
+            show: 'Preimpostata'
+            edit: 'Cambia il preimpostata'
+
+    list_historic: 'Storia della visita di Meetcoins'
+
+    error:
+        user_already_exist: 'Esiste già un account con questa email!'
+        password_not_match: 'Password non sono le stesse.'
+        email_not_match: 'Email non sono la stessa cosa.'
+        please_enter_password: 'Inserisci la tua password'
+        contact: 'Devi fornire almeno un mezzo di contatto!'
+        type: ''
+        password_min_caracter: 'La tua password deve essere lunga almeno {{limit}} caratteri'
+
+    timer:
+        days: 'Giorni'
+        hours: 'ore'
+        minutes: 'Minuti'
+        seconds: 'Secondi'
+
+    action:
+        validation: 'Convalida finale'
+        next: 'seguente'
+        draft: 'Salva come bozza'
+        reset: 'Riutilizza questo Meetcoin'
+        create_account: 'Creare un account'
+        login: 'Accedere'
+        logout: 'Disconnettersi'
+        forget_password: 'Dimenticato la password?'
+        create: 'Creare'
+        submit: 'Convalidare'
+        cancel: 'Per cancellare'
+        refresh: 'Ricaricare'
+        save_preset: 'Salva preimpostazione'
+        edit_preset: 'Cambia il preimpostata'
+        history_url: 'Historiques'
+        continue_work: 'Continuare il lavoro'
+
+    register:
+        signin: 'Creazione account'
+
+    espace_client:
+        title: 'Il mio spazio Meetcoin'
+        button:
+            create_reglage: 'Crea un nuovo preset'
+            edit_reglage: 'Cambia il %nome% preimpostato'
+        alert:
+            reglage_created: 'La tua impostazione %name% è stata creata'
+            reglage_edited: 'La tua impostazione %name% è stata modificata'
+
+    email:
+        confirm_email_address: |
+            <p>Buongiorno</p>
+
+            <p> Per favore, conferma il tuo indirizzo email per il tuo account Meetcoin cliccando
+                <a href="%signedUrl%">qui</a> ( questo link scade tra %expiredAt% )
+            </p>
+            <p>Cordialmente</p>
+            <p style="font-size:12px; margin:12px 0">Meetcoin</p>
+
+        waiting_email_send: 'Conferma il tuo indirizzo email'
+        email_verified: 'Il tuo indirizzo email è verificato'
+
+    step2:
+        message: |
+            <div class='features'>
+                <div class="icon-box mt-5 mt-lg-0">
+                  <i class='bx bx-user-circle'></i>
+                  <div class="text-muted username">%username%</div>
+                  <h4>%message_type% : </h4>
+                  <p>%content%</p>
+                </div>
+            </div>
+
+        text: ~
+    title:
+        waiting: 'In attesa'

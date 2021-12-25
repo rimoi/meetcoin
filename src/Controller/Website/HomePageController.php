@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomePageController extends AbstractController
 {
     /**
-     * @Route({"fr": "/{key}", "en": "/en/{key}", "es": "/es/{key}"}, name="meetcoin_app")
+     * @Route({"fr": "/{key}", "en": "/en/{key}", "es": "/es/{key}", "it": "/it/{key}"}, name="meetcoin_app")
      * @Entity("url", expr="repository.findByKey(key)")
      */
     public function index(Url $url, Request $request): Response

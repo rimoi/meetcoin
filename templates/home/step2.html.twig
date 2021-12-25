@@ -11,7 +11,8 @@
             <div class="row">
                 <div class="col-lg-8 col-11 m-1">
                     {% set username = url.lastMessage ? url.lastMessage.prenom : '' %}
-                    {% set message_type = url.lastMessage ? url.lastMessage.type|trans() ~ ' :' : '' %}
+                    {% set message  =  url.lastMessage %}
+                    {% set message_type = url.lastMessage ? url.lastMessage.type|trans() : '' %}
                     {% set content = url|traduction(app.request.locale) %}
 
                     {{ 'homepage.step2.message'|trans({
@@ -19,6 +20,50 @@
                         '%message_type%': message_type,
                         '%content%': content
                     })|raw }}
+                </div>
+                <div class="col-12 my-2 social-links">
+                    <div class="d-flex my-1">
+                        <div class="d-inline-flex">
+                            <div class="d-flex align-items-center snap">
+                                <i class="bx bxl-snapchat fa-3x"></i>
+                                &nbsp;
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" readonly value="{{ message.snap }}" />
+                            </div>
+                        </div>
+                        <div class="d-inline-flex ml-3">
+                            <div class="d-flex align-items-center">
+                                &nbsp;
+                                <i class="bx bxl-messenger fa-3x"></i>
+                                &nbsp;
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" readonly value="{{ message.messenger }}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex my-3">
+                        <div class="d-inline-flex">
+                            <div class="d-flex align-items-center instagram">
+                                <i class="bx bxl-instagram fa-3x"></i>
+                                &nbsp;
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" readonly value="{{ message.insta }}" />
+                            </div>
+                        </div>
+                        <div class="d-inline-flex ml-3">
+                            <div class="d-flex align-items-center">
+                                &nbsp;
+                                <i class="bx bxs-envelope fa-3x"></i>
+                                &nbsp;
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" readonly value="{{ message.email }}" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

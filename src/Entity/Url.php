@@ -86,6 +86,11 @@ class Url
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $userVisited = [];
+
     public function isFree(): bool
     {
         return $this->type === PaymentConstant::UNLIMITED;
@@ -344,6 +349,25 @@ class Url
     public function setCategory(?string $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getUserVisited(): ?array
+    {
+        return $this->userVisited;
+    }
+
+    public function setUserVisited(?int $userVisited): self
+    {
+
+        if ($userVisited === null) {
+            return $this;
+        }
+
+        $this->userVisited[] = $userVisited;
+
+        $this->userVisited = array_unique($this->userVisited);
 
         return $this;
     }

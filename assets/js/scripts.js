@@ -200,9 +200,9 @@ $(function () {
         if (seconds < "10") { seconds = "0" + seconds; }
 
         // $("#days").html(days + "<span>Days</span>");
-        $("#hours").html(hours + "<span> Heures</span>");
-        $("#minutes").html(minutes + "<span> min</span>");
-        $("#seconds").html(seconds + "<span> Sec</span>");
+        $("#hours").html(hours);
+        $("#minutes").html(minutes);
+        $("#seconds").html(seconds);
 
     }
 

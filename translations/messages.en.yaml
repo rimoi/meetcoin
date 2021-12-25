@@ -1,16 +1,118 @@
 homepage:
     form:
-        firstname: 'Nom'
-        lastname: 'Prénom'
-        snap: 'Pseudo Snap'
-        messenger: 'Pseudo Messenger'
-        mail: 'Adresse Email'
-        insta: 'Pseudo Instagram'
-        description: 'Ecrivez ici votre message...'
-        show_message: 'Rendre mon message visible dans : '
+        firstname: 'Firstname'
+        facultatif: '(facultatif)'
+        snap: 'Snap username'
+        messenger: 'Facebook username'
+        mail: 'Mail adress'
+        insta: 'Instagram username'
+        description: 'You can write a message here'
+        show_message: 'After validation, make the Meetcoin visible'
+        zero_min: 'right now'
+        one_hours: 'in 1 hour'
+        three_hours: 'in 3 hours'
+        six_hours: 'in 6 hours'
+        twelve_hours: 'in 12 hours'
+        24_hours: 'in 24 hours'
+        drink: 'Invite for a drink'
+        cafe: 'Invite for a cofee'
+        nice_place: 'Invite to discover a nice place'
+        know_each_other: 'Get to know'
+        drink_response: "He/She invites you for a drink"
+        cafe_response: "He/She invites you to have a coffee"
+        nice_place_response: "He/She wants to show you a nice place"
+        know_each_other_response: "He/She wants to meet you"
+        email: 'Email'
+        confirm_email: 'Mail confirmation'
+        password: 'Password'
+        confirm_password: 'Confirm your password'
+        proposition: 'What would you like to propose to him/her?'
+        edit_info_user: 'Edit my informations'
+        credit: 'Credit(s)'
+        edit_profile: 'Edit my profile picture'
+        fields:
+            name_prereglage: 'Preset name'
+        is_connected: 'You are connected as %name%'
+
+        confirme_message: 'Please click on the following link to confirm your email address: '
+
+        message:
+            create_preset: 'Preset configuration'
+            create: 'Meetcoin configuration'
+            show: 'Preset'
+            edit: 'Edit preset'
+
+    list_historic: 'Meetcoins visit history'
+
+    error:
+        user_already_exist: 'An account already exists with this email!'
+        password_not_match: 'Passwords are not the same.'
+        email_not_match: 'Emails are not the same.'
+        please_enter_password: 'Enter your password'
+        contact: 'You must write at least 1 contact information way!'
+        type: 'You must choose the type of message'
+        password_min_caracter: 'Your password must have at least {{ limit }} print character'
+
+    timer:
+        days: 'Days'
+        hours: 'hours'
+        minutes: 'Minutes'
+        seconds: 'Seconds'
 
     action:
         validation: 'Final validation'
-        draft: 'Draft'
         next: 'Next'
-        reset: 'Reset'
+        draft: 'Save as draft'
+        reset: 'Reuse this Meetcoin'
+        create_account: 'Create an account'
+        login: 'Log in'
+        logout: 'Log out'
+        forget_password: 'Forgot your password?'
+        create: 'Create'
+        submit: 'Submit'
+        cancel: 'Cancel'
+        refresh: 'Refresh'
+        save_preset: 'Save preset'
+        edit_preset: 'Edit preset'
+        history_url: 'historic'
+        continue_work: 'Continue the work'
+
+    register:
+        signin: 'Create my account'
+
+    espace_client:
+        title: 'My Meetcoin space'
+        button:
+            create_reglage: 'Create a new preset'
+            edit_reglage: 'Edit %name% preset'
+        alert:
+            reglage_created: 'Your %name% preset has been created'
+            reglage_edited: 'Your %name% preset has been modified'
+
+    email:
+        confirm_email_address: |
+            <p>Hello</p>
+
+            <p> Please confirm your email address for your Meetcoin account by clicking
+                <a href="%signedUrl%">here</a> ( This link will expires in %expiredAt% )
+            </p>
+            <p>Cordially</p>
+            <p style="font-size:12px; margin:12px 0">Meetcoin</p>
+        waiting_email_send: 'Please confirm your email address on the email you received in your mailbox'
+        email_verified: 'Your email address is verified'
+
+    step2:
+        message: |
+            <div class='features'>
+                <div class="icon-box mt-5 mt-lg-0">
+                  <i class='bx bx-user-circle'></i>
+                  <div class="text-muted username">%username%</div>
+                  <h4>%message_type% : </h4>
+                  <p>%content%</p>
+                </div>
+            </div>
+
+        text: ~
+
+    title:
+        waiting: 'Waiting'

@@ -6,8 +6,8 @@ use App\Entity\Message;
 use App\Entity\Url;
 use App\Form\MessageType;
 use App\Repository\MessageRepository;
+use App\Repository\UrlRepository;
 use App\Service\StripePayment;
-use MercurySeries\FlashyBundle\FlashyNotifier;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -30,10 +30,7 @@ class HomeController extends AbstractController
      * @var TranslatorInterface
      */
     private $translator;
-    /**
-     * @var FlashyNotifier
-     */
-    private $flashyNotifier;
+
     /**
      * @var StripePayment
      */
@@ -49,20 +46,18 @@ class HomeController extends AbstractController
 
     public function __construct(
         TranslatorInterface $translator,
-        FlashyNotifier $flashyNotifier,
         StripePayment $stripePayment,
         MessageRepository $messageRepository,
         string $publicKey
     ){
         $this->translator = $translator;
-        $this->flashyNotifier = $flashyNotifier;
         $this->stripePayment = $stripePayment;
         $this->publicKey = $publicKey;
         $this->messageRepository = $messageRepository;
     }
 
     /**
-     * @Route({"fr": "/{key}", "en": "/en/{key}", "es": "/es/{key}"}, name="index")
+     * @Route({"fr": "/{key}", "en": "/en/{key}", "es": "/es/{key}", "it": "/it/{key}"}, name="index")
      * @Entity("url", expr="repository.findByKey(key)")
      */
     public function index(Request $request, Url $url): Response
@@ -82,7 +77,7 @@ class HomeController extends AbstractController
 
         $etape = (int) $url->lastStep() ?: $etape;
         // A supprimé 👇
-//        $etape = 0;
+//        $etape = 1;
 //        $request->getSession()->set('step', $etape);
 //
         if ($etape === 2 && $url->getTimer() && $url->getTimer() >= (new \DateTime())) {
@@ -103,6 +98,11 @@ class HomeController extends AbstractController
 
     private function step0(Request $request, Url $url): Response
     {
+        if ($this->getUser()) {
+            $url->setUserVisited($this->getUser()->getId());
+            $this->getDoctrine()->getManager()->flush();
+        }
+
         $form = $this->createFormBuilder()
             ->add('language', ChoiceType::class, [
                 'choices' => [
@@ -134,6 +134,12 @@ class HomeController extends AbstractController
 
     private function step1(Request $request, Url $url): Response
     {
+
+        if ($this->getUser()) {
+            $url->setUserVisited($this->getUser()->getId());
+            $this->getDoctrine()->getManager()->flush();
+        }
+
         $message = $url->lastMessage();
         if (!$message) {
             $message = new Message();
@@ -172,14 +178,14 @@ class HomeController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$form->get('type')->getData()) {
-                $formError = new FormError($this->translator->trans('homepage.error.type'));
-                $form->get('type')->addError($formError);
-                return $this->render('home/index.html.twig', [
-                    'form' => $form->createView(),
-                    'url'  => $url
-                ]);
-            }
+//            if (!$form->get('type')->getData()) {
+//                $formError = new FormError($this->translator->trans('homepage.error.type'));
+//                $form->get('type')->addError($formError);
+//                return $this->render('home/index.html.twig', [
+//                    'form' => $form->createView(),
+//                    'url'  => $url
+//                ]);
+//            }
 
             // check if il ya un username qui est renseigné
             if (
@@ -229,6 +235,11 @@ class HomeController extends AbstractController
 
     private function step2(Request $request, Url $url): Response
     {
+        if ($this->getUser()) {
+            $url->setUserVisited($this->getUser()->getId());
+            $this->getDoctrine()->getManager()->flush();
+        }
+
         $form = $this->createFormBuilder()
             ->add('suivante', HiddenType::class, [
                 'required' => false
@@ -259,6 +270,8 @@ class HomeController extends AbstractController
 
             // je vais mettre ici ce bloque temporaire pour forcer l'initialisation de parcours en attendant
             // de voir avec lucien si à la fin de parcours on passe au payment ou retour
+
+            // D'après lucien le parcours est temporairement gratuit jusqu'à nouvelle ordre
 
             return $this->redirectToRoute(
                 'message_reset', [
@@ -303,7 +316,7 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route({"fr": "/{key}/reset", "en": "/en/{key}/reset", "es": "/es/{key}/reset"}, name="reset")
+     * @Route({"fr": "/fr/{key}/reset", "en": "/en/{key}/reset", "es": "/es/{key}/reset", "it": "/it/{key}/ripristina"}, name="reset")
      * @Entity("url", expr="repository.findByKey(key)")
      */
     public function reset(Request $request, Url $url): Response
@@ -323,15 +336,17 @@ class HomeController extends AbstractController
 
 
     /**
-     * @Route({"fr": "/{key}/waiting", "en": "/en/{key}/waiting", "es": "/es/{key}/waiting"}, name="waiting")
-     * @Entity("url", expr="repository.findByKey(key)")
+     * @Route({"fr": "/fr/attente/{key}", "en": "/en/waiting/{key}", "es": "/es/esperando/{key}", "it": "/it/inattesa/{key}"}, name="waiting")
      */
-    public function waiting(Request $request, Url $url): Response
+    public function waiting(Request $request, ?string $key = null, UrlRepository $urlRepository): Response
     {
-        $url = $this->generateUrl('message_index', [
-            'key' => $url->getUrlToRoute(),
-            '_locale' => $request->getLocale()
-        ]);
+        $url = null;
+        if ($key && $urlRepository->find($key)) {
+            $url = $this->generateUrl('message_index', [
+                'key' => $url->getUrlToRoute(),
+                '_locale' => $request->getLocale()
+            ]);
+        }
 
         return $this->render('home/waiting.html.twig', [
             'url' => $url,

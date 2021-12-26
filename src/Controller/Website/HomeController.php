@@ -108,7 +108,7 @@ class HomeController extends AbstractController
                 'choices' => [
                     ucwords(Locales::getName('fr', $request->getLocale())) => 'fr',
                     ucwords(Locales::getName('en', $request->getLocale())) => 'en',
-                    ucwords(Locales::getName('es', $request->getLocale())) => 'es',
+                    ucwords(Locales::getName('it', $request->getLocale())) => 'it',
                 ],
                 'label' => ' '
             ])

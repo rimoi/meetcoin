@@ -51,6 +51,9 @@ homepage:
         contact: 'Devi fornire almeno un mezzo di contatto!'
         type: ''
         password_min_caracter: 'La tua password deve essere lunga almeno {{limit}} caratteri'
+        page_not_found: 'Pagina non trovata!'
+        back_homepage: 'Torna alla homepage!'
+        500: 'Si è verificato di nuovo un errore!'
 
     timer:
         days: 'Giorni'

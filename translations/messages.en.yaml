@@ -52,6 +52,9 @@ homepage:
         contact: 'You must write at least 1 contact information way!'
         type: 'You must choose the type of message'
         password_min_caracter: 'Your password must have at least {{ limit }} print character'
+        page_not_found: 'Page not found!'
+        back_homepage: 'Back to the homepage!'
+        500: 'An error has occurred again!'
 
     timer:
         days: 'Days'

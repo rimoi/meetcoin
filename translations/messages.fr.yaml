@@ -57,6 +57,9 @@ homepage:
          contact: 'Tu dois renseigner au moins un moyen de contact'
          type: 'Tu dois choisir le type de ton message !'
          password_min_caracter: 'Ton mot de passe doit comporter au moins {{ limit }} caractères'
+         page_not_found: 'Page non trouvé !'
+         back_homepage: 'Retour à la page d''accueil !'
+         500: 'Une erreur s''est reproduite !'
 
 
     action:

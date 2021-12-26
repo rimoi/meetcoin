@@ -1,16 +1,96 @@
-{% extends 'connection/login.html.twig' %}
-
-{% block title %}La page que vous cherchez n'existe pas !{% endblock %}
-{% block meta_robots %}
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
     <meta name="robots" content="noindex"/>
-{% endblock %}
-{% block _show_message %}{{ block('title') }}{% endblock %}
-{% block _create_or_ligin %}
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active" id="sign_up">
-            <img height="400" width="350" src="{{ asset('build/images/error404.jpg') }}" alt="Image Page 404">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+        {% block title 'homepage.error.page_not_found'|trans %}
+    </title>
+    <style>
+        body {
+            background: #141829;
+            font-family: 'Nova Square', cursive;
+        }
+
+        .text-404 {
+            margin-top: 80px;
+            font-size: 200px;
+            line-height: 200px;
+            text-align: center;
+            letter-spacing: 5px;
+            background: -webkit-linear-gradient(#FF2525, #FFE53B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+        }
+
+        .text {
+            text-align: center;
+            font-size: 20px;
+            color: #f6f6e3;
+            letter-spacing: 5px;
+            margin-top: 0px;
+        }
+
+        .text-btn {
+            text-align: center;
+            margin-top: 75px;
+        }
+
+        .btn-outline-primary {
+            border-color: #ffc8c8;
+            color: #9e1515;
+            border-radius: 0px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #ffc8c8;
+            right: 0px;
+            border-color: #ffc8c8;
+            color: #141829;
+        }
+
+        @media screen and (max-width:500px) {
+            .text-404 {
+                font-size: 150px;
+            }
+        }
+
+        @media screen and (max-width:345px) {
+            .text-404 {
+                font-size: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div class="col-lg-12 text-404">
+                <b>404</b>
+            </div>
+            <div class="col-lg-12 text">
+                <b> {{ block('title') }} </b>
+            </div>
+            <div class="col-lg-12 text-btn">
+                <a href="{{ path('espace_client_index') }}">
+                    <button name="login" class="btn btn-outline-primary">< {{ 'homepage.error.back_homepage'|trans }}</button>
+                </a>
+            </div>
         </div>
+        <div class="col-lg-2"></div>
     </div>
-{% endblock %}
+</div>
+</body>
+</html>
 
 

@@ -69,11 +69,13 @@
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li>
-                            <a href="{{ path('historic') }}" class="{{ app.request.get('_route') == 'historic' ? 'active' }}">
-                                {{ 'homepage.action.history_url'|trans }}
-                            </a>
-                        </li>
+                        {% if app.user %}
+                            <li>
+                                <a href="{{ path('historic') }}" class="{{ app.request.get('_route') == 'historic' ? 'active' }}">
+                                    {{ 'homepage.action.history_url'|trans }}
+                                </a>
+                            </li>
+                        {% endif %}
                         <li>
                             {% if not app.user %}
                                 <a class="nav-link scrollto {{ app.request.get('_route') == 'app_login' ? 'active' }}" href="{{ path('app_login') }}">

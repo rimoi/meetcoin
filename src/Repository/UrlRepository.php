@@ -38,10 +38,14 @@ class UrlRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Url[] Returns an array of Url objects
+     * @return Url|null
      */
     public function findByKey(string $idAndKey)
     {
+        if (!stristr($idAndKey, '@')) {
+            return null;
+        }
+
         [$id, $securityKey] = explode('@', $idAndKey);
 
         return $this->findOneBy([

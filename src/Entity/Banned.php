@@ -12,8 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *  @ORM\Index(name="banned_index_email", columns={"email"}),
  *  @ORM\Index(name="banned_index_insta", columns={"insta"}),
  *  @ORM\Index(name="banned_index_snap", columns={"snap"}),
- *  @ORM\Index(name="banned_index_messenger", columns={"messenger"}),
- *  @ORM\Index(name="banned_index_content", columns={"content"})
+ *  @ORM\Index(name="banned_index_messenger", columns={"messenger"})
  * })
  */
 class Banned

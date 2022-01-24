@@ -89,6 +89,10 @@
                     <i class="far fa-check-circle"></i>
                     {{ 'homepage.action.reset'|trans }}
                 </button>
+                &nbsp;
+                <a href="{{ path('message_report', {id: message.id}) }}" class="btn btn-info">
+                    {{ 'homepage.report.action.button_report'|trans }}
+                </a>
             </div>
             {{ form_end(form) }}
         </div>

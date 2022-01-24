@@ -118,3 +118,10 @@ homepage:
         text: ~
     title:
         waiting: 'In attesa'
+
+    report:
+        message:
+            success: 'La tua segnalazione è stata presa in considerazione'
+        action:
+            button_report: 'Segnala'
+

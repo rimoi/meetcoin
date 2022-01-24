@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  * @ORM\Entity(repositoryClass=MessageRepository::class)
  */
@@ -22,58 +24,69 @@ class Message
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"reports"})
      */
     private $nameReglage;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"reports"})
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"reports"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"reports"})
      */
     private $insta;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"reports"})
      */
     private $messenger;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"reports"})
      */
     private $snap;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"reports"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"reports"})
      */
     private $message;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"reports"})
      */
     private $timeToShowMessage;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean")
+     * @Groups({"reports"})
      */
     private $archived = false;
 
     /**
      * @ORM\Column(type="datetime")
      * @Gedmo\Timestampable(on="create")
+     * @Groups({"reports"})
      */
     private $createdAt;
 
@@ -86,11 +99,13 @@ class Message
     /**
      * @ORM\ManyToOne(targetEntity=Url::class, inversedBy="messages")
      * @ORM\JoinColumn(nullable=true)
+     * @Groups({"reports"})
      */
     private $url;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"reports"})
      */
     private $language;
 
@@ -116,9 +131,22 @@ class Message
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"reports"})
+     */
+    private $gender;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({"reports"})
+     */
+    private $ip;
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
+        $this->reports = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -376,6 +404,30 @@ class Message
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getIp(): ?string
+    {
+        return $this->ip;
+    }
+
+    public function setIp(string $ip): self
+    {
+        $this->ip = $ip;
 
         return $this;
     }

@@ -8,6 +8,7 @@ use App\Repository\UrlRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UrlRepository::class)
@@ -97,6 +98,9 @@ class Url
     }
 
 
+    /**
+     * @Groups({"reports"})
+     */
     public function getUrlToRoute(): string
     {
         return $this->identifiant . $this->getSecurityKey();

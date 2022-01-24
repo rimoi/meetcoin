@@ -61,7 +61,7 @@ class Payment
 
     /**
      * @ORM\ManyToOne(targetEntity=Message::class, inversedBy="payments")
-     * @ORM\JoinColumn(nullable=false)
+     ²
      */
     private $message;
 

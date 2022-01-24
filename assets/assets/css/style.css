@@ -1369,3 +1369,7 @@ p.count {
 .credits a:hover {
   color: #009961;
 }
+
+.cs-alert-notice {
+    margin-top: 135px;
+}

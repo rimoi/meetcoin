@@ -1,9 +1,10 @@
-
-{% for label, messages in app.flashes(['success', 'warning', 'danger']) %}
-    {% for message in messages %}
-        <div class="alert alert-{{ label }}{% if classNotice is defined %} {{ classNotice }}{% endif %}">
-            {{ message|raw }}
-        </div>
-        <div class="clearfix"></div>
+<div class="cs-alert-notice container">
+    {% for label, messages in app.flashes(['success', 'warning', 'danger']) %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }}{% if classNotice is defined %} {{ classNotice }}{% endif %}">
+                {{ message|raw }}
+            </div>
+            <div class="clearfix"></div>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
+</div>

@@ -1,5 +1,4 @@
 $(function () {
-    console.log('je passe la partie javascript')
     let input_select2 = $('.js-select2');
     input_select2.select2({
         allowClear: true,
@@ -221,5 +220,134 @@ $(function () {
         } else {
             window.location.href = url;
         }
+    });
+
+    $('.js-submit-banned').on('click', function () {
+        const messageId = $(this).data('messageId');
+        $(`.${ messageId }.js-submit-form-banned`).toggleClass('d-none');
+        $(`.${ messageId }.js-submit-banned`).toggleClass('d-none');
+    });
+    $('.js-cancel-banned').on('click', function (e){
+        e.preventDefault();
+        const messageId = $(this).data('messageId');
+        $(`.${ messageId }.js-submit-form-banned`).toggleClass('d-none');
+        $(`.${ messageId }.js-submit-banned`).toggleClass('d-none');
+    });
+
+    $('.js-validate-report').on('click', function (e){
+        e.preventDefault();
+
+        let reportId = $(this).data('reportId');
+
+        $.ajax({
+            url: Routing.generate('valid', {reportId}),
+            type: 'POST',
+            success: function (data) {
+                if (!data.error) {
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    let element = $(`.js-report-${ reportId }`);
+                    element.fadeOut( 1000, function() {
+                        element.remove();
+                    });
+
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Une erreur est survenue !',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+
+    });
+
+    $('.js-submit-form-banned').on('submit', function (e) {
+        e.preventDefault();
+        let formContext = $(this);
+        const messageId = formContext.data('messageId');
+
+        let data = {};
+        data.messageId = messageId;
+
+        if (
+            formContext.find(`.email.${messageId}`)
+            && formContext.find(`.email.${messageId}`).val()
+            && formContext.find(`.email.${messageId}`).is(':checked')
+        ) {
+            data.email = formContext.find(`.email.${messageId}`).val();
+        }
+        if (
+            formContext.find(`.snap.${messageId}`)
+            && formContext.find(`.snap.${messageId}`).val()
+            && formContext.find(`.snap.${messageId}`).is(':checked')
+        ) {
+            data.snap = formContext.find(`.snap.${messageId}`).val();
+        }
+        if (
+            formContext.find(`.messenger.${messageId}`)
+            && formContext.find(`.messenger.${messageId}`).val()
+            && formContext.find(`.messenger.${messageId}`).is(':checked')
+        ) {
+            data.messenger = formContext.find(`.messenger.${messageId}`).val();
+        }
+        if (
+            formContext.find(`.insta.${messageId}`)
+            && formContext.find(`.insta.${messageId}`).val()
+            && formContext.find(`.insta.${messageId}`).is(':checked')
+        ) {
+            data.insta = formContext.find(`.insta.${messageId}`).val();
+        }
+
+        if (
+            formContext.find(`.comment.${messageId}`)
+            && formContext.find(`.comment.${messageId}`).val()
+        ) {
+            data.comment = formContext.find(`.comment.${messageId}`).val();
+        }
+
+        if (
+            formContext.find(`.reportId.${messageId}`)
+            && formContext.find(`.reportId.${messageId}`).val()
+        ) {
+            data.reportId = parseInt(formContext.find(`.reportId.${messageId}`).val());
+        }
+
+        $.ajax({
+            url: Routing.generate('banned', data),
+            type: 'POST',
+            success: function (data) {
+                if (!data.error) {
+                    $(`.${ messageId }.js-submit-form-banned`).toggleClass('d-none');
+                    $(`.${ messageId }.js-submit-banned`).toggleClass('d-none');
+
+                    Swal.fire({
+                        position: 'top-center',
+                        icon: 'success',
+                        title: data.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    position: 'top-center',
+                    icon: 'error',
+                    title: 'Une erreur est survenue !',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
     });
 });

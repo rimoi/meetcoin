@@ -25,6 +25,16 @@
 
                 {% block _name_prereglage '' %}
 
+                {% if form_errors(form.gender) or form_errors(form.prenom) %}
+                    <div class="alert alert-danger">
+                        {{ form_errors(form.gender) }}
+                        {{ form_errors(form.prenom) }}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    {{ form_widget(form.gender, {'attr': {'class': 'form-control'}}) }}
+                </div>
                 <div class="form-group">
                         {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
                     </div>

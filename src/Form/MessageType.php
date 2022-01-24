@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MessageType extends AbstractType
 {
@@ -42,6 +43,9 @@ class MessageType extends AbstractType
             ->add('timeToShowMessage', ChoiceType::class, [
                 'choices' => $this->getChoices(),
                 'required' => false,
+                'choice_value' => function ($value) {
+                    return ucfirst($value);
+                },
                 'label' => 'homepage.form.show_message',
             ])
             ->add('insta', TextType::class, [
@@ -76,6 +80,17 @@ class MessageType extends AbstractType
                 'label' => ' ',
                 'required' => false,
             ])
+            ->add('gender', ChoiceType::class, [
+                'choices' => $this->getGender(),
+                'required' => false,
+                'choice_value' => function ($value) {
+                    return ucfirst($value);
+                },
+                'placeholder' => 'homepage.gender.label',
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
         ;
 
         if ($options['name_prereglage'] ?? false) {
@@ -105,6 +120,16 @@ class MessageType extends AbstractType
             'homepage.form.three_hours' => '+3 hours',
             'homepage.form.six_hours' => '+6 hours',
             'homepage.form.twelve_hours' => '+12 hours',
+        ];
+    }
+
+    private function getGender()
+    {
+        return [
+//            'homepage.gender.label' => 'homepage.gender.label',
+            'homepage.gender.man' => 'homepage.gender.man',
+            'homepage.gender.woman' => 'homepage.gender.woman',
+            'homepage.gender.no-binary' => 'homepage.gender.no-binary',
         ];
     }
 

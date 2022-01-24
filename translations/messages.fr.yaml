@@ -118,3 +118,17 @@ homepage:
         text: ~
     title:
         waiting: 'Attente'
+
+    report:
+        message:
+            success: 'Votre signalement à bien été pris en compte'
+            error: 'Vous êtes bannie !'
+        action:
+            button_report: 'Signaler'
+
+    gender:
+        man: 'Homme'
+        woman: 'Femme'
+        no-binary: 'NON Binaire'
+        label: 'Genre H/F'
+

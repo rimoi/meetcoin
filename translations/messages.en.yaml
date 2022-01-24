@@ -119,3 +119,9 @@ homepage:
 
     title:
         waiting: 'Waiting'
+
+    report:
+        message:
+            success: 'Your report has been taken into account'
+        action:
+            button_report: 'Report'

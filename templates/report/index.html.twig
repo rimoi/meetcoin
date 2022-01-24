@@ -1,0 +1,85 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Signalements - Admin{% endblock %}
+
+{% block body %}
+    <section class="panel important">
+        <h2>Liste de signalments <i class="badge badge-info">{{ messages|length }}</i></h2>
+        {% include 'common/_notice.html.twig' %}
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Utilisateur / IP ( Créateur )</th>
+                    <th>Snap</th>
+                    <th>messenger</th>
+                    <th>instgram</th>
+                    <th>email</th>
+                    <th>Utilisateur / IP ( Signaleur )</th>
+                    <th colspan="2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for message in messages %}
+                <tr>
+                    <td>{{ message.ip }}</td>
+                    <td>
+                        {{ message.snap }}
+                        {% if message.snap
+                            and (snapsDuplicated[message.snap] ?? false)
+                            and snapsDuplicated[message.snap] > 1
+                        %}
+                            <i class="badge badge-danger">
+                                {{ snapsDuplicated[message.snap] }}
+                            </i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ message.messenger }}
+                        {% if message.messenger
+                            and (messengersDuplicated[message.messenger] ?? false)
+                            and messengersDuplicated[message.messenger] > 1
+                        %}
+                            <i class="badge badge-danger">
+                                {{ messengersDuplicated[message.messenger] }}
+                            </i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ message.insta }}
+                        {% if message.insta
+                            and (instasDuplicated[message.insta] ?? false)
+                            and instasDuplicated[message.insta] > 1
+                        %}
+                            <i class="badge badge-danger">
+                                {{ instasDuplicated[message.insta] }}
+                            </i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ message.email }}
+                        {% if message.email
+                            and (emailsDuplicated[message.email] ?? false)
+                            and emailsDuplicated[message.email] > 1
+                        %}
+                            <i class="badge badge-danger">
+                                {{ emailsDuplicated[message.email] }}
+                            </i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ message.report.user ?? message.report.ip ?? '' }}
+                    </td>
+                    <td colspan="2">
+                        <a href="{{ path('report_show', {identifiant: message.report.identifiant}) }}">
+                            Voir
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </section>
+{% endblock %}

@@ -3,10 +3,13 @@
 namespace App\Controller\Website;
 
 use App\Entity\Message;
+use App\Entity\Report;
 use App\Entity\Url;
 use App\Form\MessageType;
 use App\Repository\MessageRepository;
+use App\Repository\ReportRepository;
 use App\Repository\UrlRepository;
+use App\Service\ReportManager;
 use App\Service\StripePayment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +22,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -43,17 +51,23 @@ class HomeController extends AbstractController
      * @var MessageRepository
      */
     private $messageRepository;
+    /**
+     * @var ReportManager
+     */
+    private $reportManager;
 
     public function __construct(
         TranslatorInterface $translator,
         StripePayment $stripePayment,
         MessageRepository $messageRepository,
-        string $publicKey
+        string $publicKey,
+        ReportManager $reportManager
     ){
         $this->translator = $translator;
         $this->stripePayment = $stripePayment;
         $this->publicKey = $publicKey;
         $this->messageRepository = $messageRepository;
+        $this->reportManager = $reportManager;
     }
 
     /**
@@ -178,6 +192,12 @@ class HomeController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $message->setIp($request->getClientIp());
+
+            if ($this->getUser()) {
+                // Propritaire du meetcoin
+                $message->setUser($this->getUser());
+            }
 //            if (!$form->get('type')->getData()) {
 //                $formError = new FormError($this->translator->trans('homepage.error.type'));
 //                $form->get('type')->addError($formError);
@@ -196,6 +216,14 @@ class HomeController extends AbstractController
                 && !trim($message->getMessage())
             ) {
                 $formError = new FormError($this->translator->trans('homepage.error.contact'));
+                $form->get('email')->addError($formError);
+                return $this->render('home/index.html.twig', [
+                    'form' => $form->createView(),
+                    'url'  => $url
+                ]);
+            }
+            if ($this->reportManager->checkIsBanned($message)) {
+                $formError = new FormError($this->translator->trans('homepage.report.message.error'));
                 $form->get('email')->addError($formError);
                 return $this->render('home/index.html.twig', [
                     'form' => $form->createView(),
@@ -321,6 +349,9 @@ class HomeController extends AbstractController
      */
     public function reset(Request $request, Url $url): Response
     {
+        /**
+         * @var Message[] $messages
+         */
         $messages = $url->resetMessage();
 
         $request->getSession()->set('step', 0);
@@ -350,6 +381,49 @@ class HomeController extends AbstractController
 
         return $this->render('home/waiting.html.twig', [
             'url' => $url,
+        ]);
+    }
+
+    /**
+     * @Route({"fr": "/fr/signalement/{id}", "en": "/en/report/{id}", "it": "/it/segnalare/{id}"}, name="report")
+     */
+    public function report(
+        Request $request,
+        Message $message,
+        TranslatorInterface $translator,
+        ReportRepository $reportRepository,
+        SerializerInterface $serializer
+    ): Response
+    {
+        if (!$reportRepository->getByMessage($request->getClientIp(), $this->getUser(), $message->getId())) {
+            $report = new Report();
+
+            $report->setIp($request->getClientIp());
+
+            if ($this->getUser()) {
+                // Reporteur du signalement
+                $report->setUser($this->getUser());
+            }
+
+            $report->setMessageId($message->getId());
+            $content = $serializer->serialize($message, 'json', [
+                'groups' => 'reports',
+                'circular_reference_handler' => function ($object) {
+                    return $object->getId();
+                }
+            ]);
+
+            $report->setContent($content);
+
+            $this->getDoctrine()->getManager()->persist($report);
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        $this->addFlash('success', $translator->trans('homepage.report.message.success'));
+
+        return $this->redirectToRoute('message_index', [
+            'key' => $message->getUrl()->getUrlToRoute(),
+            '_locale' => $request->getLocale()
         ]);
     }
 }

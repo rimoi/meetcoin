@@ -1,0 +1,122 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Signalements - Admin{% endblock %}
+
+{% block body %}
+    <section class="panel important mb-5">
+        <div class="my-3 mx-2">
+            <a href="{{ path('report_index') }}" class="btn btn-secondary btn-sm">< Retour liste de signalements</a>
+        </div>
+
+        <h2>Signalements</h2>
+
+        {% for message in messages %}
+            <div id="{{ message.report.messageId }}" class="p-5 m-2 js-report-{{ message.report.id }}" style="background-color: #f8f9fa">
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table {{ message.report.verified ? 'table-success'  : 'table-bordered' }}">
+                            <thead>
+                            <tr>
+                                <th>Date Meetcoin</th>
+                                <th>Utilisateur / IP ( Créateur )</th>
+                                <th>Prénom</th>
+                                <th>Genre</th>
+                                <th>Snap</th>
+                                <th>messenger</th>
+                                <th>instgram</th>
+                                <th>email</th>
+                                <th>Utilisateur / IP ( Signaleur )</th>
+                                <th>Date Signalement</th>
+                                <th>Contenu</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                {% dump(message) %}
+                                <td>{{ message.ip }}</td>
+                                <td>{{ message.ip }}</td>
+                                <td>{{ message.prenom }}</td>
+                                <td>{{ message.gender ? message.gender|trans }}</td>
+                                <td>{{ message.snap }}</td>
+                                <td>{{ message.messenger }}</td>
+                                <td>{{ message.insta }}</td>
+                                <td>{{ message.email }}</td>
+                                <td>{{ message.report.user ?? message.report.ip ?? '' }}</td>
+                                <td>{{ message.createdAt|date('d/m/Y') }}</td>
+                                <td style="font-size: 14px; line-height: 25px;">
+                                    {{ message.message }}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="m-4 text-right">
+                    {% if not message.report.verified %}
+                        <button data-report-id="{{ message.report.id }}" class="js-validate-report btn btn-primary" title="Valider ce signalement">C'est bon pour moi</button>
+                    {% endif %}
+                    <button data-message-id="{{ message.report.messageId }}" class="js-submit-banned btn btn-secondary" title="Ajout d'une règle de bannisement">
+                        Ajouter une règle
+                    </button>
+                </div>
+
+
+                <form data-message-id="{{ message.report.messageId }}" class="d-none js-submit-form-banned {{ message.report.messageId }}">
+                    <div class="row mx-4 my-4">
+                        <div class="col-3">
+                            <div class="form-check">
+                                <input class="form-check-input snap {{ message.report.messageId }}" type="checkbox" value="{{ message.snap }}">
+                                <label class="form-check-label" for="snap">
+                                    <i class="fab fa-snapchat-ghost color-blue-ciel"></i>
+                                    Snapchat
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-check">
+                                <input class="form-check-input email {{ message.report.messageId }}" type="checkbox" value="{{ message.email }}">
+                                <label class="form-check-label" for="email">
+                                    <i class="fas fa-envelope color-blue-ciel"></i>
+                                    Email
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-check">
+                                <input class="form-check-input messenger {{ message.report.messageId }}" type="checkbox" value="{{ message.messenger }}">
+                                <label class="form-check-label" for="messenger">
+                                    <i class="fab fa-facebook-messenger color-blue-ciel"></i>
+                                    Messenger
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-check">
+                                <input class="form-check-input insta {{ message.report.messageId }}" type="checkbox" value="{{ message.insta }}">
+                                <label class="form-check-label" for="insta">
+                                    <i class="fab fa-instagram color-blue-ciel"></i>
+                                    Instagram
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" class="{{ message.report.messageId }} reportId" value="{{ message.report.id }}">
+                    <div class="row">
+                        <div class="col-12">
+                            <textarea name="comment" class="comment {{ message.report.messageId }}" cols="10" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center pt-4 mb-5">
+                        <div class="mr-2">
+                            <a class="btn btn-secondary js-cancel-banned {{ message.messageId }}" data-message-id="{{ message.report.messageId }}" href="#">Annuler</a>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" type="submit" title="Créer la régle">Créer la règle</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

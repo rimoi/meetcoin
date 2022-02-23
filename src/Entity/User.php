@@ -68,10 +68,16 @@ class User implements UserInterface
      */
     private $reports;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SaveMeetcoinByUser::class, mappedBy="user")
+     */
+    private $saveMeetcoinByUsers;
+
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->reports = new ArrayCollection();
+        $this->saveMeetcoinByUsers = new ArrayCollection();
     }
 
     public function decremente()
@@ -262,6 +268,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($report->getUser() === $this) {
                 $report->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SaveMeetcoinByUser[]
+     */
+    public function getSaveMeetcoinByUsers(): Collection
+    {
+        return $this->saveMeetcoinByUsers;
+    }
+
+    public function addSaveMeetcoinByUser(SaveMeetcoinByUser $saveMeetcoinByUser): self
+    {
+        if (!$this->saveMeetcoinByUsers->contains($saveMeetcoinByUser)) {
+            $this->saveMeetcoinByUsers[] = $saveMeetcoinByUser;
+            $saveMeetcoinByUser->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaveMeetcoinByUser(SaveMeetcoinByUser $saveMeetcoinByUser): self
+    {
+        if ($this->saveMeetcoinByUsers->removeElement($saveMeetcoinByUser)) {
+            // set the owning side to null (unless already changed)
+            if ($saveMeetcoinByUser->getUser() === $this) {
+                $saveMeetcoinByUser->setUser(null);
             }
         }
 

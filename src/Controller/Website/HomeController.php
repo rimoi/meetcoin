@@ -94,6 +94,16 @@ class HomeController extends AbstractController
 //        $etape = 1;
 //        $request->getSession()->set('step', $etape);
 //
+        if ($etape === 2 && ($url->lastMessage()->getScanned())){
+            $message = $url->lastMessage();
+            $url->setTimer(new \DateTime($message->getTimeToShowMessage()));
+            $message->setScanned(false);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->render('home/attents.html.twig', ['timer' => $url->getTimer()->format('c')]);
+        }
+
         if ($etape === 2 && $url->getTimer() && $url->getTimer() >= (new \DateTime())) {
             return $this->render('home/attents.html.twig', ['timer' => $url->getTimer()->format('c')]);
         }
@@ -112,10 +122,10 @@ class HomeController extends AbstractController
 
     private function step0(Request $request, Url $url): Response
     {
-        if ($this->getUser()) {
-            $url->setUserVisited($this->getUser()->getId());
-            $this->getDoctrine()->getManager()->flush();
-        }
+//        if ($this->getUser()) {
+//            $url->setUserVisited($this->getUser()->getId());
+//            $this->getDoctrine()->getManager()->flush();
+//        }
 
         $form = $this->createFormBuilder()
             ->add('language', ChoiceType::class, [
@@ -148,12 +158,6 @@ class HomeController extends AbstractController
 
     private function step1(Request $request, Url $url): Response
     {
-
-        if ($this->getUser()) {
-            $url->setUserVisited($this->getUser()->getId());
-            $this->getDoctrine()->getManager()->flush();
-        }
-
         $message = $url->lastMessage();
         if (!$message) {
             $message = new Message();
@@ -171,13 +175,13 @@ class HomeController extends AbstractController
             $message->setPrereglage(false);
         }
 
-        $form = $this->createForm(MessageType::class, $message);
+        $form = $this->createForm(MessageType::class, $message, ['user' => !$this->getUser()]);
 
         $form->handleRequest($request);
 
-
         // On stock le message dans le brouillon et on reste dans le state 1
         if ($form->isSubmitted() && $form->isValid() && $request->get('draft')) {
+            $message->setIp($request->getClientIp());
             $message->setUrl($url);
             $message->setLanguage($request->getLocale());
 
@@ -195,7 +199,13 @@ class HomeController extends AbstractController
             $message->setIp($request->getClientIp());
 
             if ($this->getUser()) {
-                // Propritaire du meetcoin
+                // Les personnes ayant detenu le meetcoin (c-à-d qui l'ont configurer)
+                $url->setUserVisited($this->getUser()->getId());
+                $this->getDoctrine()->getManager()->flush();
+            }
+
+            if ($this->getUser()) {
+                // Dernière Propritaire du meetcoin (qui la configurer)
                 $message->setUser($this->getUser());
             }
 //            if (!$form->get('type')->getData()) {
@@ -207,7 +217,7 @@ class HomeController extends AbstractController
 //                ]);
 //            }
 
-            // check if il ya un username qui est renseigné
+            // check if il ya un username qui est renseignée
             if (
                 !$message->getSnap()
                 && !$message->getMessenger()
@@ -231,8 +241,8 @@ class HomeController extends AbstractController
                 ]);
             }
             // On créé le message et on passe dans le state 2
-            if ($timer = $message->getTimeToShowMessage()) {
-                $url->setTimer(new \DateTime($timer));
+            if ($message->getTimeToShowMessage()) {
+                $message->setScanned(true);
             } else {
                 $url->setTimer(new \DateTime());
             }
@@ -263,10 +273,15 @@ class HomeController extends AbstractController
 
     private function step2(Request $request, Url $url): Response
     {
-        if ($this->getUser()) {
-            $url->setUserVisited($this->getUser()->getId());
-            $this->getDoctrine()->getManager()->flush();
-        }
+        $link = $this->generateUrl('message_reset', [
+            'key' => $url->getUrlToRoute(),
+            '_locale' => $request->getLocale()
+        ]);
+
+//        if ($this->getUser()) {
+//            $url->setUserVisited($this->getUser()->getId());
+//            $this->getDoctrine()->getManager()->flush();
+//        }
 
         $form = $this->createFormBuilder()
             ->add('suivante', HiddenType::class, [
@@ -285,7 +300,13 @@ class HomeController extends AbstractController
                     '_locale' => $request->getLocale()
                 ]));
             }
-            if ($this->getUser() && ($this->getUser()->getCredit() || in_array($this->getUser()->getId(), $url->getAuthorizedUser())) ) {
+            if ($this->getUser()
+                && (
+                    $this->getUser()->getCredit()
+                    ||
+                    in_array($this->getUser()->getId(), $url->getAuthorizedUser())
+                )
+            ) {
 
                 $this->getUser()->decremente();
                 $this->getDoctrine()->getManager()->flush();
@@ -323,7 +344,8 @@ class HomeController extends AbstractController
 
         return $this->render('home/step2.html.twig', [
             'form' => $form->createView(),
-            'url'  => $url
+            'url'  => $url,
+            'lien' => $link
         ]);
     }
 
@@ -372,7 +394,8 @@ class HomeController extends AbstractController
     public function waiting(Request $request, ?string $key = null, UrlRepository $urlRepository): Response
     {
         $url = null;
-        if ($key && $urlRepository->find($key)) {
+        if ($key && ($url = $urlRepository->find($key))) {
+
             $url = $this->generateUrl('message_index', [
                 'key' => $url->getUrlToRoute(),
                 '_locale' => $request->getLocale()

@@ -44,8 +44,13 @@
                         </li>
                         {% if app.user %}
                             <li>
-                                <a href="{{ path('historic') }}" class="{{ app.request.get('_route') == 'historic' ? 'active' }}">
-                                    {{ 'homepage.action.history_url'|trans }}
+                                <a href="{{ path('saved') }}" class="{{ app.request.get('_route') == 'saved' ? 'active' }}">
+                                    {{ 'homepage.saved.label'|trans }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('my_meetcoin') }}" class="{{ app.request.get('_route') == 'my_meetcoin' ? 'active' }}">
+                                    {{ 'homepage.my_meetcoin.header.title'|trans }}
                                 </a>
                             </li>
                         {% endif %}
@@ -55,7 +60,7 @@
                                     {{ 'homepage.action.login'|trans }}
                                 </a>
                             {% else %}
-                                <a class="nav-link scrollto" href="{{ path('app_register') }}">
+                                <a class="nav-link scrollto" href="{{ path('app_logout') }}">
                                     {{ 'homepage.action.logout'|trans }}
                                 </a>
                             {% endif %}

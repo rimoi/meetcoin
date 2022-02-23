@@ -15,6 +15,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Message
 {
+    public const SAVE_MEETCOIN = 'save_meetcoin';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -143,10 +145,35 @@ class Message
      */
     private $ip;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $possibilityToSave;
+
+    /**
+     * @ORM\OneToMany(targetEntity=SaveMeetcoinByUser::class, mappedBy="message")
+     */
+    private $saveMeetcoinByUsers;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $scanned = false;
+
+    public function cantSaved(): bool
+    {
+        if ($this->possibilityToSave) {
+            return !$this->saveMeetcoinByUsers->first();
+        }
+
+        return false;
+    }
+
     public function __construct()
     {
         $this->payments = new ArrayCollection();
         $this->reports = new ArrayCollection();
+        $this->saveMeetcoinByUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -428,6 +455,60 @@ class Message
     public function setIp(string $ip): self
     {
         $this->ip = $ip;
+
+        return $this;
+    }
+
+    public function getPossibilityToSave(): ?bool
+    {
+        return $this->possibilityToSave;
+    }
+
+    public function setPossibilityToSave(?bool $possibilityToSave): self
+    {
+        $this->possibilityToSave = $possibilityToSave;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SaveMeetcoinByUser[]
+     */
+    public function getSaveMeetcoinByUsers(): Collection
+    {
+        return $this->saveMeetcoinByUsers;
+    }
+
+    public function addSaveMeetcoinByUser(SaveMeetcoinByUser $saveMeetcoinByUser): self
+    {
+        if (!$this->saveMeetcoinByUsers->contains($saveMeetcoinByUser)) {
+            $this->saveMeetcoinByUsers[] = $saveMeetcoinByUser;
+            $saveMeetcoinByUser->setMessage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaveMeetcoinByUser(SaveMeetcoinByUser $saveMeetcoinByUser): self
+    {
+        if ($this->saveMeetcoinByUsers->removeElement($saveMeetcoinByUser)) {
+            // set the owning side to null (unless already changed)
+            if ($saveMeetcoinByUser->getMessage() === $this) {
+                $saveMeetcoinByUser->setMessage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getScanned(): ?bool
+    {
+        return $this->scanned;
+    }
+
+    public function setScanned(?bool $scanned): self
+    {
+        $this->scanned = $scanned;
 
         return $this;
     }

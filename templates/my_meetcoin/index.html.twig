@@ -1,0 +1,68 @@
+{% extends "site.html.twig" %}
+{% block title 'homepage.table.header.meetcoin_receive'|trans %}
+
+{% block body %}
+    <main id="main">
+        <section id="about" class="about">
+            <div class="row">
+                <div class="col-8 offset-2">
+                    <table class="table table-bordered table-transparent">
+                        <thead>
+                        <tr>
+                            <td colspan="5">{{ 'homepage.table.header.meetcoin_receive'|trans }}</td>
+                            <td align="center">
+                                Date
+                            </td>
+                            <td align="center">
+                                {{ 'homepage.table.header.actions'|trans }}
+                            </td>
+{#                            <td align="center">#}
+{#                                {{ 'homepage.saved.comment'|trans }}#}
+{#                            </td>#}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for url in urls %}
+                            {% set message = url.lastMessage %}
+                            <tr>
+                                <td colspan="5" align="center">
+                                    {{ message.prenom }}
+                                </td>
+                                <td align="center">
+                                    <span class="badge badge-info">
+                                        {{ message.createdAt|date('d/m/Y à H:i') }}
+                                    </span>
+                                </td>
+                                <td align="center">
+                                    {% set locale = message.language ?: 'fr' %}
+                                    <a href="{{ path('message_index', { 'key' : url.urlToRoute, _locale: locale }) }}" class="btn btn-info btn-sm"
+                                       title="{{ 'homepage.action.show'|trans }}">
+                                        <i class="bx bx-show"></i>
+                                    </a>
+{#                                    <a href="{{ path('espace_client_edit', { 'id' : message.id, _locale: locale, 'redirect': 'my_meetcoin' }) }}" class="btn btn-info btn-sm"#}
+{#                                       title="{{ 'homepage.action.edit'|trans }}">#}
+{#                                        <i class="bx bx-edit-alt"></i>#}
+{#                                    </a>#}
+                                </td>
+                                {#
+                                    A decommenter quand on veux rajout le système de commentaire
+                                    parcontre peut être rajouter un commentaire sur l'entité URL
+                                #}
+{#                                <td align="center">#}
+{#                                    <button class="btn btn-info js-save-comment-meetcoin"#}
+{#                                            data-content="{{ url.comment|raw }}"#}
+{#                                            data-save-meetcoin-id="{{ url.id }}"#}
+{#                                    >#}
+{#                                        <i class="bx bx-comment-edit"></i>#}
+{#                                    </button>#}
+
+{#                                </td>#}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

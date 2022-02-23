@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+
 $(function () {
     let input_select2 = $('.js-select2');
     input_select2.select2({
@@ -350,4 +352,55 @@ $(function () {
             }
         });
     });
+
+    $('.js-save-comment-meetcoin').on(
+        'click',
+        handleContractDescription.bind(this)
+    );
+
+    function handleContractDescription(e) {
+        let currentElement = $(e.currentTarget);
+        let save_message_id = currentElement.data('saveMeetcoinId');
+        let description = currentElement.data('content');
+
+        Swal.fire({
+            title: 'Comment',
+            input: 'textarea',
+            width: '75em',
+            showClass: {
+                popup: 'swal2-show js-description',
+                backdrop: 'swal2-backdrop-show',
+                icon: 'swal2-icon-show'
+            },
+            inputValue: description,
+            inputAttributes: {
+                autocapitalize: 'on',
+                class:'form-control',
+            },
+            showCancelButton: true,
+            confirmButtonText: description ? 'Edit' : 'Create',
+            showLoaderOnConfirm: true,
+            allowOutsideClick: () => false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                if (result.value.trim() === '') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Content should not be empty!',
+                    });
+                } else {
+                    const content = result.value;
+                    $.ajax({
+                        type: 'POST',
+                        url: Routing.generate('comment_saved'),
+                        data: {save_message_id, content},
+                        success(data) {
+                            window.location.reload();
+                        }
+                    })
+                }
+            }
+        });
+    }
 });

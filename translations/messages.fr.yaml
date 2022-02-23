@@ -40,8 +40,16 @@ homepage:
             create: 'Configuration du Meetcoin'
             show: 'Préréglage'
             edit: 'Modifier le préréglage'
+            save: 'Enregistrer ce meetcoin'
+            label_save: 'Votre meetcoin a été enregistré'
+        possibility_to_save: 'Cochez cette case pour permettre au destinataire de sauvegarder ce meetcoin.'
 
-    list_historic: 'Historiques de visite des Meetcoins'
+    table:
+        header:
+            actions: 'Actions'
+            meetcoin_receive: 'Liste de meetcoin reçus'
+
+    list_meetcoin_saved: 'Liste des meetcoin enregistrés'
 
     timer:
         days: 'Jours'
@@ -79,6 +87,8 @@ homepage:
         edit_preset: 'Modifier le préréglage'
         history_url: 'Historiques'
         continue_work: 'Poursuivre'
+        edit: 'Modifier'
+        show: 'Voir'
 
     register:
         signin: 'Création de compte'
@@ -91,6 +101,8 @@ homepage:
         alert:
             reglage_created: 'Ton réglage %name% à bien été crée'
             reglage_edited: 'Ton réglage %name% à bien été modifié'
+        edit:
+            my_meetcoin: 'Modification bien enregistrée'
 
     email:
         confirm_email_address: |
@@ -131,4 +143,12 @@ homepage:
         woman: 'Femme'
         no-binary: 'NON Binaire'
         label: 'Genre H/F'
+
+    saved:
+        label: 'Meetcoin sauvegarder'
+        see: 'Voir le meetcoin enregister'
+        comment: 'Commentaire'
+    my_meetcoin:
+        header:
+            title: 'Mes meetcoins'
 

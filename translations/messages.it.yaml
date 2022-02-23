@@ -41,7 +41,7 @@ homepage:
             show: 'Preimpostata'
             edit: 'Cambia il preimpostata'
 
-    list_historic: 'Storia della visita di Meetcoins'
+    list_meetcoin_saved: 'Elenco dei meetcoin registrati'
 
     error:
         user_already_exist: 'Esiste già un account con questa email!'

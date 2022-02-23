@@ -30,11 +30,17 @@
                         <div class="col-12 col-lg-6 offset-lg-2 form-group">
                             <button type="submit" class="btn btn-buy-simple">{{ 'homepage.action.create'|trans }}</button>
 
-                            {% set params = {} %}
+                            {% set params = [] %}
                             {% if app.request.get('id') %}
-                                {% set params = app.request.get('id') %}
+                                {% set params = {'id': app.request.get('id')} %}
                             {% endif %}
-                            <a href="{{ path('app_login', {id: params}) }}" class="btn btn-buy">
+
+                            {% set save_meetcoin = constant('App\\Entity\\SaveMeetcoinByUser::SAVE_MEETCOIN') %}
+                            {% if app.request.get(save_meetcoin) %}
+                                <input type="hidden" name="{{ save_meetcoin }}" value="{{ app.request.get(save_meetcoin) }}">
+                                {% set params = params|merge({save_meetcoin: app.request.get(save_meetcoin)}) %}
+                            {% endif %}
+                            <a href="{{ path('app_login', params) }}" class="btn btn-buy">
                                 {{ 'homepage.action.login'|trans }}
                             </a>
                         </div>

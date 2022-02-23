@@ -44,34 +44,192 @@ class ReportRepository extends ServiceEntityRepository
 
     public function findDuplicateDate(Report $report, Message $message): array
     {
-        $qb = $this->createQueryBuilder('r');
-        $qb->where('r <> :report')
-            ->setParameter('report', $report);
+        $condition = '';
+
+        $parameters = [];
 
         if ($message->getEmail()) {
-            $qb->orWhere('r.content like :email')
-                ->setParameter('email', '%"email":"'.$message->getEmail().'"%');
-        }
+            if($condition) {
+                $condition .= ' OR ';
+            }
 
+            $condition .= ' r.content like :email';
+
+            $parameters['email'] = '%"email":"'.$message->getEmail().'"%';
+        }
         if ($message->getSnap()) {
-            $qb->orWhere('r.content like :snap')
-                ->setParameter('snap', '%"snap":"'.$message->getSnap().'"%');
+            if($condition) {
+                $condition .= ' OR ';
+            }
+
+            $condition .= 'r.content like :snap';
+            $parameters['snap'] = '%"snap":"'.$message->getSnap().'"%';
         }
 
         if ($message->getMessenger()) {
-            $qb->orWhere('r.content like :messenger')
-                ->setParameter('messenger', '%"messenger":"'.$message->getMessenger().'"%');
+            if($condition) {
+                $condition .= ' OR ';
+            }
+
+            $condition .= 'r.content like :messenger';
+            $parameters['messenger'] = '%"messenger":"'.$message->getMessenger().'"%';
         }
 
         if ($message->getInsta()) {
-            $qb->orWhere('r.content like :insta')
-                ->setParameter('insta', '%"insta":"'.$message->getInsta().'"%');
+            if($condition) {
+                $condition .= ' OR ';
+            }
+            $condition .= 'r.content like :insta';
+            $parameters['insta'] = '%"insta":"'.$message->getInsta().'"%';
         }
         if ($report->getIp()) {
-            $qb->orWhere('r.ip = :ip')
-                ->setParameter('ip', $report->getIp());
+            if($condition) {
+                $condition .= ' OR ';
+            }
+            $condition .= 'r.ip = :ip';
+            $parameters['ip'] = $report->getIp();
         }
 
-        return $qb->getQuery()->getResult();
+        $dql = 'SELECT r FROM App:Report r';
+        if ($condition) {
+            $dql .= " WHERE ( $condition )";
+        }
+
+        $dql .= ' ORDER BY r.createdAt DESC';
+
+        $qb = $this->_em->createQuery($dql);
+        $qb->setParameters(
+            $parameters
+        );
+
+        return $qb->getResult();
+    }
+
+    public function findIsVerified(Report $report, Message $message): bool
+    {
+        $condition = '';
+
+        $parameters = [];
+
+        if ($message->getEmail()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+
+            $condition .= ' r.content like :email';
+
+            $parameters['email'] = '%"email":"'.$message->getEmail().'"%';
+        }
+        if ($message->getSnap()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+
+            $condition .= 'r.content like :snap';
+            $parameters['snap'] = '%"snap":"'.$message->getSnap().'"%';
+        }
+
+        if ($message->getMessenger()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+
+            $condition .= 'r.content like :messenger';
+            $parameters['messenger'] = '%"messenger":"'.$message->getMessenger().'"%';
+        }
+
+        if ($message->getInsta()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+            $condition .= 'r.content like :insta';
+            $parameters['insta'] = '%"insta":"'.$message->getInsta().'"%';
+        }
+        if ($report->getIp()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+            $condition .= 'r.ip = :ip';
+            $parameters['ip'] = $report->getIp();
+        }
+
+        $parameters['verified'] = false;
+
+        $dql = 'SELECT r FROM App:Report r WHERE r.verified = :verified';
+        if ($condition) {
+            $dql .= " AND ( $condition )";
+        }
+
+        $dql .= ' ORDER BY r.createdAt DESC';
+
+        $qb = $this->_em->createQuery($dql);
+        $qb->setParameters(
+            $parameters
+        );
+
+        return !!!$qb->getOneOrNullResult();
+    }
+
+    public function findIsBanned(Report $report, Message $message): bool
+    {
+        $condition = '';
+
+        $parameters = [];
+
+        if ($message->getEmail()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+
+            $condition .= ' r.content like :email';
+
+            $parameters['email'] = '%"email":"'.$message->getEmail().'"%';
+        }
+        if ($message->getSnap()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+
+            $condition .= 'r.content like :snap';
+            $parameters['snap'] = '%"snap":"'.$message->getSnap().'"%';
+        }
+
+        if ($message->getMessenger()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+
+            $condition .= 'r.content like :messenger';
+            $parameters['messenger'] = '%"messenger":"'.$message->getMessenger().'"%';
+        }
+
+        if ($message->getInsta()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+            $condition .= 'r.content like :insta';
+            $parameters['insta'] = '%"insta":"'.$message->getInsta().'"%';
+        }
+        if ($report->getIp()) {
+            if($condition) {
+                $condition .= ' OR ';
+            }
+            $condition .= 'r.ip = :ip';
+            $parameters['ip'] = $report->getIp();
+        }
+
+        $dql = 'SELECT r FROM App:Report r INNER JOIN App:Banned b WITH (b.reportId = r.id)';
+        if ($condition) {
+            $dql .= " WHERE $condition";
+        }
+
+        $dql .= ' ORDER BY r.createdAt DESC';
+
+        $qb = $this->_em->createQuery($dql);
+        $qb->setParameters(
+            $parameters
+        );
+
+        return !!$qb->getOneOrNullResult();
     }
 }

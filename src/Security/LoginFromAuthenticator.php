@@ -2,6 +2,8 @@
 
 namespace App\Security;
 
+use App\Entity\Message;
+use App\Entity\SaveMeetcoinByUser;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -93,6 +95,16 @@ class LoginFromAuthenticator extends AbstractFormLoginAuthenticator implements P
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+
+        if ($messageId = $request->get('id')) {
+            $message = $this->entityManager->find(Message::class, $messageId);
+            if ($request->get(SaveMeetcoinByUser::SAVE_MEETCOIN)) {
+                $url = $this->urlGenerator->generate('message_save', ['token' => $message->getUrl()->getUrlToRoute()]);
+
+                return new RedirectResponse($url);
+            }
+        }
+
 
         if ($url = $request->getSession()->get('url_redirection')) {
             $request->getSession()->remove('url_redirection');

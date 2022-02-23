@@ -2,7 +2,6 @@
 {% block title 'homepage.form.message.show'|trans %}
 
 {% block body %}
-
     <section id="services" class="services" style="margin-top: 15px;">
         <div class="container">
 
@@ -17,7 +16,7 @@
 
                     {{ 'homepage.step2.message'|trans({
                         '%username%': username,
-                        '%message_type%': message_type,
+                        '%message_type%': message_type|trans,
                         '%content%': content
                     })|raw }}
                 </div>
@@ -85,7 +84,14 @@
                     {#                    </a>#}
                 {% endif %}
 
-                <button class="btn btn-success" type="submit">
+                &nbsp;
+                {% if message.cantSaved %}
+                    <a href="{{ path('message_save', {token: url.urlToRoute}) }}" class="btn btn-warning">
+                        {{ 'homepage.form.message.save'|trans }}
+                    </a>
+                {% endif %}
+
+                <button class="btn btn-danger ml-1" type="submit">
                     <i class="far fa-check-circle"></i>
                     {{ 'homepage.action.reset'|trans }}
                 </button>

@@ -88,6 +88,8 @@ class Url
     private $category;
 
     /**
+     * Les personnes ayant detenu le meetcoin (c-à-d qui l'ont configurer)
+     *
      * @ORM\Column(type="json", nullable=true)
      */
     private $userVisited = [];
@@ -125,6 +127,24 @@ class Url
 
     public function lastMessage()
     {
+        if (!$this->messages->last()) {
+            return null;
+        }
+
+        /** @var Message[] $messages */
+        $messages = $this->messages->toArray();
+        foreach ($messages as $message) {
+            $messages[$message->getCreatedAt()->format('YmdHis')] = $message;
+        }
+
+        krsort($messages);
+
+        foreach ($messages as $message) {
+            if (!$message->isArchived()) {
+                return $message;
+            }
+        }
+
         return $this->messages->last();
     }
 

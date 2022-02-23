@@ -39,7 +39,10 @@ class EspaceClientController extends AbstractController
      */
     public function index(MessageRepository $messageRepository): Response
     {
-        $reglages = $messageRepository->findBy(['user' => $this->getUser()]);
+        $reglages = $messageRepository->findBy([
+            'user' => $this->getUser(),
+            'isPrereglage' => true
+        ]);
 
         return $this->render('espace_client/index.html.twig', compact('reglages'));
     }
@@ -80,7 +83,11 @@ class EspaceClientController extends AbstractController
      */
     public function edit(Message $message, Request $request): Response
     {
-        $form = $this->createForm(MessageType::class, $message, ['name_prereglage' => true]);
+        if ($request->get('redirect')) {
+            $form = $this->createForm(MessageType::class, $message, ['name_prereglage' => false]);
+        } else{
+            $form = $this->createForm(MessageType::class, $message, ['name_prereglage' => true]);
+        }
 
         $form->handleRequest($request);
 
@@ -89,17 +96,37 @@ class EspaceClientController extends AbstractController
             $message->setLanguage($request->getLocale());
             $message->setUser($this->getUser());
 
+            // On créé le message et on passe dans le state 2
+            if ($message->getTimeToShowMessage()) {
+                $message->setScanned(true);
+            } else {
+                $message->getUrl()->setTimer(new \DateTime());
+            }
+
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            if ($request->get('redirect')) {
+                $this->addFlash('succes', $this->translator->trans('homepage.espace_client.edit.my_meetcoin'));
+
+                return $this->redirectToRoute($request->get('redirect'));
+            }
+
             $this->addFlash('succes', $this->translator->trans('homepage.espace_client.alert.reglage_edited', ['name' => $message->getNameReglage()]));
 
-            return $this->redirectToRoute('espace_client_index', [ '_locale' => $request->getLocale()]);
+            return $this->redirectToRoute('espace_client_index');
         }
 
-        return $this->render('espace_client/edit.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        if ($request->get('redirect')) {
+            // Modification de notre meetcoin depuis l'espace client
+            return $this->render('espace_client/edit_meetcoin.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }  else {
+            return $this->render('espace_client/edit.html.twig', [
+                'form' => $form->createView(),
+            ]);
+        }
     }
 
 //    /**

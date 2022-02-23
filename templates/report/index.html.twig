@@ -21,7 +21,8 @@
             </thead>
             <tbody>
             {% for message in messages %}
-                <tr>
+                {% set bg_color = message.banned ? 'table-warning' : message.verified ? 'table-success' : 'table-danger' %}
+                <tr class="{{ bg_color }}">
                     <td>{{ message.ip }}</td>
                     <td>
                         {{ message.snap }}
@@ -68,7 +69,17 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ message.report.user ?? message.report.ip ?? '' }}
+                        {% set reportId = message.report.user ?? message.report.ip ?? '' %}
+                        {{ reportId }}
+
+                        {% if reportId
+                            and (ipSignaleurs[reportId] ?? false)
+                            and ipSignaleurs[reportId] > 1
+                        %}
+                            <i class="badge badge-danger">
+                                {{ ipSignaleurs[reportId] }}
+                            </i>
+                        {% endif %}
                     </td>
                     <td colspan="2">
                         <a href="{{ path('report_show', {identifiant: message.report.identifiant}) }}">

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Url;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -54,45 +55,12 @@ class UrlRepository extends ServiceEntityRepository
         ]);
     }
 
-    /**
-     * @return Url[] Returns an array of Url objects
-     */
-    public function findHistoricByUser(int $id)
+    public function findMeetcoinByUser(User $user): array
     {
         return $this->createQueryBuilder('u')
-            ->where('u.userVisited like :visited')
-            ->setParameter('visited', '%'.$id.'%')
+            ->where('u.userVisited LIKE :visited')
+            ->setParameter('visited', '%'.$user->getId().'%')
             ->getQuery()
             ->getResult();
     }
-
-
-    // /**
-    //  * @return Url[] Returns an array of Url objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Url
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Message;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,7 +36,8 @@ class MessageType extends AbstractType
             ->add('message', TextareaType::class, [
                 'attr' => [
                     'placeholder' => 'homepage.form.description',
-                    'class' => 'cs-border-radius'
+                    'class' => 'cs-border-radius',
+                    'rows' => '7'
                 ],
                 'label' => false,
                 'required' => false
@@ -102,13 +104,23 @@ class MessageType extends AbstractType
                 ]
             ]);
         }
+
+        if ($options['user'] ?? false) {
+            $builder->add('possibilityToSave', CheckboxType::class, [
+                'attr' => ['placeholder' => false],
+                'label' => 'homepage.form.possibility_to_save',
+                'required' => false,
+                'data' => true
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Message::class,
-            'name_prereglage' => false
+            'name_prereglage' => false,
+            'user' => false,
         ]);
     }
 
@@ -145,10 +157,10 @@ class MessageType extends AbstractType
     private function typeMessageResponse()
     {
         return [
-            'homepage.form.drink_reponse',
-            'homepage.form.cafe_reponse',
-            'homepage.form.nice_place_reponse',
-            'homepage.form.know_each_other_reponse',
+            'homepage.form.drink_response',
+            'homepage.form.cafe_response',
+            'homepage.form.nice_place_response',
+            'homepage.form.know_each_other_response',
         ];
     }
 }

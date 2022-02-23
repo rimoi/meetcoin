@@ -1,0 +1,19 @@
+{% embed 'espace_client/preset.html.twig' %}
+    {% block _name_prereglage '' %}
+
+    {% block _save_preset %}
+        <div class="d-flex justify-content-between">
+            <div class="my-4">
+                <button class="btn btn-success" type="submit" name="validation" value="validation">
+                    <i class="far fa-check-circle"></i>
+                    {{ 'homepage.action.edit'|trans }}
+                </button>
+            </div>
+            <div class="my-4">
+                <a href="{{ path('my_meetcoin') }}" class="btn btn-info">
+                    {{ 'homepage.action.cancel'|trans }}
+                </a>
+            </div>
+        </div>
+    {% endblock %}
+{% endembed %}

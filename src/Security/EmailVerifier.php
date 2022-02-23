@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Entity\SaveMeetcoinByUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,12 +33,22 @@ class EmailVerifier
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user, TemplatedEmail $email): void
+    public function sendEmailConfirmation(
+        string $verifyEmailRouteName,
+        UserInterface $user,
+        TemplatedEmail $email,
+        ?int $messageId = null,
+        ?string $saveMeetcoin = null
+    ): void
     {
         $options = ['id' => $user->getId()];
-        if ($user->messageId) {
-            $options['messageId'] = $user->messageId;
-            $options['locale'] = $this->request->getLocale();
+        if ($messageId) {
+            $options['messageId'] = $messageId;
+        }
+        $options['_locale'] = $this->request->getLocale();
+
+        if ($saveMeetcoin) {
+            $options[SaveMeetcoinByUser::SAVE_MEETCOIN] = $saveMeetcoin;
         }
 
         $signatureComponents = $this->verifyEmailHelper->generateSignature(

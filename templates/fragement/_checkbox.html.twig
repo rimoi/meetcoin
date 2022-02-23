@@ -1,0 +1,11 @@
+<div class="form-group">
+    <div class="d-flex">
+        {{ form_widget(form_field, {'label': false}) }}
+        <label class="form-check-label ml-2" for="{{ form_field.vars.id }}">
+            {{- form_field.vars.label|trans -}}
+        </label>
+    </div>
+    {{ form_errors(form_field) }}
+    {{ form_help(form_field) }}
+</div>
+

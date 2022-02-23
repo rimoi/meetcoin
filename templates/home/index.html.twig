@@ -103,7 +103,32 @@
                         {{ form_widget(form.timeToShowMessage, {'attr': {'class': 'form-select'}}) }}
                     </div>
 
-                    {% block _save_preset %}
+
+                    {% if 'possibilityToSave' in form|keys %}
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" style="background-color: white; border: none">
+                                    {{ form_widget(form.possibilityToSave, {'attr': {'class': 'form-checkbox'}}) }}
+                                    &ensp; {{ form_label(form.possibilityToSave) }}
+                                </div>
+                            </div>
+                        </div>
+{#                        <div>#}
+{#                            {{ form_widget(form.possibilityToSave, {'attr': {'class': 'form-checkbox'}}) }}#}
+{#                            {{ form_label(form.possibilityToSave) }}#}
+{#                        </div>#}
+
+{#                        {% include 'fragement/_checkbox.html.twig' with {form_field: form.possibilityToSave} %}#}
+{#                        {% for key, type in form.possibilityToSave.children %}#}
+{#                                {% include 'templates/fragment/_checkbox.html.twig' with {form_field: type} %}#}
+{#                        {% endfor %}#}
+{#                        <div class="form-group">#}
+{#                            {% include '@service_manager/fragment/_checkbox.html.twig' with {form_field: possibilityToSave} %}#}
+{#                            {{ form_row(form.possibilityToSave, {'attr': {'class': 'form-checkbox'}}) }}#}
+{#                        </div>#}
+                    {% endif %}
+
+                {% block _save_preset %}
                         <div class="d-flex justify-content-between my-4 btn-wrap">
                             <button class="btn-buy-simple js-submit-with-confirmation" type="button" data-type="draft">
                                 <i class="fas fa-trash"></i>

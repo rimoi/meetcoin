@@ -41,8 +41,16 @@ homepage:
             create: 'Meetcoin configuration'
             show: 'Preset'
             edit: 'Edit preset'
+            save: 'Save meetcoin'
+            label_save: 'Your meetcoin has been registered'
+        possibility_to_save: 'Check this box to allow the recipient to save this meetcoin.'
 
-    list_historic: 'Meetcoins visit history'
+    list_meetcoin_saved: 'List of registered meetcoin'
+
+    table:
+        header:
+            actions: 'Actions'
+            meetcoin_receive: 'List of meetcoin received'
 
     error:
         user_already_exist: 'An account already exists with this email!'
@@ -91,6 +99,8 @@ homepage:
         alert:
             reglage_created: 'Your %name% preset has been created'
             reglage_edited: 'Your %name% preset has been modified'
+        edit:
+            my_meetcoin: 'Modification well registered'
 
     email:
         confirm_email_address: |
@@ -125,3 +135,12 @@ homepage:
             success: 'Your report has been taken into account'
         action:
             button_report: 'Report'
+
+    saved:
+        label: 'Meetcoin saved'
+        see: 'See the registered meetcoin'
+        comment: 'Comment'
+
+    my_meetcoin:
+        header:
+            title: 'My meetcoins'

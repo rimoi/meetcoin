@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Constant\PaymentConstant;
 use App\Entity\Message;
+use App\Entity\SaveMeetcoinByUser;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
@@ -50,10 +51,10 @@ class RegistrationController extends AbstractController
         TranslatorInterface $translator
     ): Response
     {
-        $id = $request->get('id');
+        $messageId = $request->get('id');
 
-        if ($id) {
-            $request->getSession()->get('id_message', $id);
+        if ($messageId) {
+            $request->getSession()->get('id_message', $messageId);
         }
 
         $user = new User();
@@ -82,26 +83,29 @@ class RegistrationController extends AbstractController
             );
             $user->setRoles(['ROLE_USER']);
 
-            $user->messageId = $id;
-
             $user->setLanguage($request->getLocale());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $saveMeetcoin = $request->get(SaveMeetcoinByUser::SAVE_MEETCOIN);
+
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address($this->emailToSend, 'Meetcoin'))
                     ->to($user->getEmail())
-                    ->subject($this->translator->trans('homepage.email.confirm_email'))
+                    ->subject($this->translator->trans('homepage.form.confirm_email'))
                     ->htmlTemplate('registration/confirmation_email.html.twig')
+                ,
+                $messageId,
+                $saveMeetcoin
             );
             // do anything else you need here, like send an email
 
-            if ($id) {
-                $message = $this->getDoctrine()->getRepository(Message::class)->find($id);
+            if ($messageId) {
+                $message = $this->getDoctrine()->getRepository(Message::class)->find($messageId);
 
                 return $this->redirectToRoute('message_waiting', [
                     'key' => $message->getUrl()->getUrlToRoute(),
@@ -126,17 +130,18 @@ class RegistrationController extends AbstractController
         TokenStorageInterface $tokenStorage,
         EventDispatcherInterface $dispatcher,
         GuardAuthenticatorHandler $guardAuthenticatorHandler,
-        LoginFromAuthenticator $authenticator
+        LoginFromAuthenticator $authenticator,
+        TranslatorInterface $translator
     ): Response
     {
-        $id = $request->get('id');
+        $userId = $request->get('id');
         $locale = $request->get('locale');
 
-        if (null === $id) {
+        if (null === $userId) {
             return $this->redirectToRoute('app_register');
         }
 
-        $user = $userRepository->find($id);
+        $user = $userRepository->find($userId);
 
         if (null === $user) {
             return $this->redirectToRoute('app_register');
@@ -144,7 +149,7 @@ class RegistrationController extends AbstractController
         $message = null;
         $messageId = $request->get('messageId');
         if ($messageId) {
-            $request->getSession()->get('id_message', $id);
+            $request->getSession()->get('id_message', $messageId);
             $message = $this->getDoctrine()->getManager()->find(Message::class, $messageId);
             $url = $message->getUrl();
             $url->setAuthorizedUser($user->getId());
@@ -156,6 +161,10 @@ class RegistrationController extends AbstractController
                 '_locale' => $locale
             ]);
             $request->getSession()->set('url_redirection', $url);
+
+            if ($request->get(SaveMeetcoinByUser::SAVE_MEETCOIN)) {
+                $this->addFlash('success', $translator->trans('homepage.form.message.label_save'));
+            }
         }
 
         // validate email confirmation link, sets User::isVerified=true and persists

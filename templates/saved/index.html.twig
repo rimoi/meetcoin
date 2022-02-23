@@ -1,0 +1,60 @@
+{% extends "site.html.twig" %}
+{% block title 'homepage.title.waiting'|trans %}
+
+{% block body %}
+<main id="main">
+    <section id="about" class="about">
+        <div class="row">
+            <div class="col-8 offset-2">
+                <table class="table table-bordered table-transparent">
+                    <thead>
+                    <tr>
+                        <td colspan="5">{{ 'homepage.list_meetcoin_saved'|trans }}</td>
+                        <td align="center">
+                            Date
+                        </td>
+                        <td align="center">
+
+                        </td>
+                        <td align="center">
+                            {{ 'homepage.saved.comment'|trans }}
+                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for url in urls %}
+                        {% set message = url.message %}
+                        <tr>
+                            <td colspan="5" align="center">
+                                {{ message.prenom }}
+                            </td>
+                            <td align="center">
+                                <span class="badge badge-info">
+                                    {{ message.createdAt|date('d/m/Y à H:i') }}
+                                </span>
+                            </td>
+                            <td align="center">
+                                {% set locale = message.language ?: 'fr' %}
+                                <a href="{{ path('message_index', { 'key' : message.url.urlToRoute, _locale: locale }) }}" class="btn btn-info btn-sm"
+                                    title="{{ 'homepage.saved.see'|trans }}">
+                                    <i class="bx bx-show"></i>
+                                </a>
+                            </td>
+                            <td align="center">
+                                <button class="btn btn-info js-save-comment-meetcoin"
+                                        data-content="{{ url.comment|raw }}"
+                                        data-save-meetcoin-id="{{ url.id }}"
+                                >
+                                    <i class="bx bx-comment-edit"></i>
+                                </button>
+
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

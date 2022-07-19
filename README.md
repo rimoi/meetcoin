@@ -1,4 +1,4 @@
-# Projet Lucien
+# Projet
 
 ## Pré-requis
 - Symfony
